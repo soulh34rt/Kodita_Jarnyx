@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="https://raw.githubusercontent.com/soulh34rt/Kodita_Jarnyx/main/Kodita%20the%20rat.png" type="image/png" />
-  <meta property="og:description" content="Codifica y decodifica Kodita Jarnyx usando ASCII y el lenguaje" />
+  <meta property="og:description" content="Codifica y decodifica Kodita Jarnyx usando posición y longitud" />
   <meta property="og:image" content="https://raw.githubusercontent.com/soulh34rt/Kodita_Jarnyx/main/Kodita%20the%20rat.png" />
   <meta property="og:url" content="https://soulh34rt.github.io/Kodita_Jarnyx/" />
   <meta property="og:type" content="website" />
@@ -14,12 +14,13 @@
   <style>
     :root {
       --bg: #0a0a0f;
-      --fg: #ffffff;
+      --fg: #f0f0ff;
       --primary: #6a67ce;
       --secondary: #ff4d94;
       --accent: #1a1a24;
       --border: #2a2a3a;
       --success: #4ade80;
+      --error: #f87171;
       --text-font: 'Inter', sans-serif;
       --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -99,10 +100,11 @@
       max-width: 600px;
       margin: 0 auto 20px;
       line-height: 1.7;
+      color: #c0c0ff;
     }
     
     .card {
-      background: rgba(26, 26, 36, 0.8);
+      background: rgba(26, 26, 36, 0.95);
       border-radius: 20px;
       padding: 35px;
       border: 1px solid var(--border);
@@ -136,7 +138,7 @@
     textarea {
       width: 100%;
       height: 160px;
-      background: rgba(20, 20, 30, 0.6);
+      background: rgba(20, 20, 30, 0.7);
       color: var(--fg);
       border: 1px solid var(--border);
       border-radius: 15px;
@@ -193,53 +195,37 @@
       box-shadow: 0 0 20px rgba(106, 103, 206, 0.5);
     }
     
-    .process-btn {
+    .copy-btn {
       width: 100%;
       padding: 18px;
-      background: linear-gradient(45deg, var(--primary), var(--secondary));
-      color: white;
-      border: none;
+      background: rgba(40, 40, 55, 0.7);
+      color: var(--fg);
+      border: 1px solid var(--border);
       border-radius: 12px;
       font-family: inherit;
       font-size: 1.15rem;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
-      position: relative;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      box-shadow: 0 5px 20px rgba(106, 103, 206, 0.4);
     }
     
-    .process-btn::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-      transition: all 0.8s;
-    }
-    
-    .process-btn:hover::after {
-      left: 100%;
-    }
-    
-    .process-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(106, 103, 206, 0.6);
+    .copy-btn:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(106, 103, 206, 0.3);
     }
     
     .result-container {
       margin-top: 35px;
+      position: relative;
     }
     
     .result {
-      background: rgba(20, 20, 30, 0.6);
+      background: rgba(20, 20, 30, 0.7);
       color: var(--fg);
       border-radius: 15px;
       padding: 25px;
@@ -250,7 +236,6 @@
       font-size: 1.15rem;
       white-space: pre-wrap;
       word-break: break-word;
-      position: relative;
       transition: var(--transition);
       line-height: 1.7;
     }
@@ -285,7 +270,7 @@
       font-weight: 600;
     }
     
-    .copy-btn {
+    .copy-btn-result {
       position: absolute;
       top: 15px;
       right: 15px;
@@ -303,7 +288,7 @@
       opacity: 0.7;
     }
     
-    .copy-btn:hover {
+    .copy-btn-result:hover {
       opacity: 1;
       background: rgba(50, 50, 65, 0.9);
       transform: translateY(-2px);
@@ -312,7 +297,7 @@
     footer {
       text-align: center;
       padding: 30px 0 10px;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(200, 200, 255, 0.6);
       font-size: 0.95rem;
     }
     
@@ -329,7 +314,7 @@
     }
     
     .explanation {
-      background: rgba(30, 30, 45, 0.8);
+      background: rgba(30, 30, 45, 0.95);
       border-radius: 20px;
       padding: 30px;
       border: 1px solid var(--border);
@@ -350,6 +335,7 @@
     .explanation p {
       margin-bottom: 20px;
       line-height: 1.8;
+      color: #e0e0ff;
     }
     
     .algorithm-steps {
@@ -399,6 +385,7 @@
       margin-bottom: 10px;
       font-family: 'Courier New', monospace;
       font-size: 1.05rem;
+      color: #e0e0ff;
     }
     
     .example-title {
@@ -520,6 +507,80 @@
       margin-top: 3px;
     }
     
+    .info-tip {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+      background: rgba(40, 40, 55, 0.7);
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    
+    .result-fade {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .language-selector {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    
+    .lang-btn {
+      padding: 10px 20px;
+      background: rgba(30, 30, 45, 0.7);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .lang-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .lang-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    
+    .lang-flag {
+      font-size: 1.2rem;
+    }
+    
+    .translate-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 100;
+      transition: var(--transition);
+    }
+    
+    .translate-icon:hover {
+      transform: scale(1.1) rotate(15deg);
+    }
+    
     @media (max-width: 768px) {
       .container {
         gap: 20px;
@@ -558,6 +619,10 @@
         flex-direction: column;
         gap: 20px;
       }
+      
+      .language-selector {
+        flex-wrap: wrap;
+      }
     }
     
     @media (max-width: 480px) {
@@ -595,219 +660,161 @@
   </style>
 </head>
 <body>
+  <div class="translate-icon" id="translateIcon">
+    <i class="fas fa-language"></i>
+  </div>
+  
   <div class="container">
     <header>
-      <h1>Kodita Jarnyx</h1>
-      <p class="subtitle">Codificador y decodificador avanzado con algoritmo basado en posición y longitud</p>
+      <h1 id="appTitle">Kodita Jarnyx</h1>
+      <p class="subtitle" id="appSubtitle">Codificador y decodificador avanzado con algoritmo basado en posición y longitud</p>
       <div class="mode-indicator">
-        <i class="fas fa-circle"></i> Modo: <span class="mode" id="modeText">Codificación</span>
+        <i class="fas fa-circle"></i> <span id="modeLabel">Modo:</span> <span class="mode" id="modeText">Codificación</span>
       </div>
     </header>
     
     <div class="card">
       <div class="input-group">
-        <label for="inputText"><i class="fas fa-keyboard"></i> Texto de entrada</label>
+        <label for="inputText"><i class="fas fa-keyboard"></i> <span id="inputLabel">Texto de entrada</span></label>
+        <span class="info-tip" id="infoTip">Soporta múltiples idiomas</span>
         <textarea id="inputText" placeholder="Escribe o pega tu texto aquí...">Kodita Jarnyx</textarea>
       </div>
       
+      <div class="language-selector">
+        <div class="lang-btn active" data-lang="es">
+          <span class="lang-flag">🇪🇸</span> Español
+        </div>
+        <div class="lang-btn" data-lang="en">
+          <span class="lang-flag">🇺🇸</span> English
+        </div>
+        <div class="lang-btn" data-lang="fr">
+          <span class="lang-flag">🇫🇷</span> Français
+        </div>
+        <div class="lang-btn" data-lang="de">
+          <span class="lang-flag">🇩🇪</span> Deutsch
+        </div>
+        <div class="lang-btn" data-lang="jp">
+          <span class="lang-flag">🇯🇵</span> 日本語
+        </div>
+      </div>
+      
       <div class="action-group">
-        <button class="action-btn active" data-mode="auto">
-          <i class="fas fa-sync-alt"></i> Automático
-        </button>
-        <button class="action-btn" data-mode="encode">
-          <i class="fas fa-lock"></i> Codificar
+        <button class="action-btn active" data-mode="encode">
+          <i class="fas fa-lock"></i> <span id="encodeBtn">Codificar</span>
         </button>
         <button class="action-btn" data-mode="decode">
-          <i class="fas fa-lock-open"></i> Decodificar
+          <i class="fas fa-lock-open"></i> <span id="decodeBtn">Decodificar</span>
         </button>
       </div>
       
-      <button class="process-btn" id="processBtn">
-        <i class="fas fa-bolt"></i> Transformar Texto
-      </button>
-      
       <div class="result-container">
-        <label for="output"><i class="fas fa-code"></i> Resultado</label>
-        <div class="result" id="output">El resultado aparecerá aquí...</div>
-        <button class="copy-btn" id="copyBtn"><i class="fas fa-copy"></i> Copiar</button>
+        <label for="output"><i class="fas fa-code"></i> <span id="resultLabel">Resultado</span></label>
+        <div class="result" id="output">El resultado aparecerá aquí automáticamente...</div>
+        <button class="copy-btn-result" id="copyBtn"><i class="fas fa-copy"></i> <span id="copyBtnText">Copiar</span></button>
       </div>
+      
+      <button class="copy-btn" id="copyAllBtn">
+        <i class="fas fa-copy"></i> <span id="copyAllBtnText">Copiar Todo</span>
+      </button>
     </div>
     
     <div class="explanation">
-      <h2><i class="fas fa-lightbulb"></i> ¿Como funciona Kodita Jarnyx?</h2>
+      <h2><i class="fas fa-lightbulb"></i> <span id="howItWorks">¿Cómo funciona Kodita Jarnyx?</span></h2>
       
-      <p>Kodita Jarnyx es un método avanzado para codificar y decodificar textos cambiando cada letra según su posición en la palabra y la longitud de esa palabra.</p>
+      <p id="explanationText">Kodita Jarnyx es un método avanzado para codificar y decodificar textos cambiando cada letra según su posición en la palabra y la longitud de esa palabra.</p>
       
       <div class="note">
         <i class="fas fa-info-circle"></i>
         <div>
-          <strong>Novedades:</strong> Kodita 0.2 - Soporte completo para caracteres acentuados (Á, É, Í, Ó, Ú, Ñ) 
-          en mayúsculas y minúsculas.
+          <strong id="newsLabel">Novedades:</strong> <span id="newsText">Versión 1.0 - Soporte completo para múltiples idiomas, caracteres especiales y procesamiento automático. Los espacios y símbolos se mantienen intactos.</span>
         </div>
       </div>
       
       <div class="algorithm-steps">
         <div class="step">
-          <h3>Para codificar:</h3>
-          <p>1. Se calcula la longitud de la palabra (semilla)</p>
-          <p>2. Para cada letra, se obtiene su código ASCII</p>
-          <p>3. Se suma la semilla más la posición de la letra (1 para la primera, 2 para la segunda, etc.)</p>
-          <p>4. Si el código resultante supera el rango de letras, se ajusta usando módulo</p>
-          <p>5. Se reemplaza la letra original por la nueva letra obtenida</p>
+          <h3 id="encodeTitle">Para codificar:</h3>
+          <p id="encodeStep1">1. Se calcula la longitud de la palabra (semilla)</p>
+          <p id="encodeStep2">2. Para cada letra, se obtiene su código Unicode</p>
+          <p id="encodeStep3">3. Se suma la semilla más la posición de la letra</p>
+          <p id="encodeStep4">4. Se reemplaza la letra original por la nueva letra obtenida</p>
         </div>
         
         <div class="step">
-          <h3>Para decodificar:</h3>
-          <p>1. Se calcula la longitud de la palabra codificada (semilla)</p>
-          <p>2. Para cada letra, se obtiene su código ASCII</p>
-          <p>3. Se resta la semilla más la posición de la letra</p>
-          <p>4. Si el código resultante es menor al rango de letras, se ajusta</p>
-          <p>5. Se reemplaza la letra codificada por la letra original</p>
+          <h3 id="decodeTitle">Para decodificar:</h3>
+          <p id="decodeStep1">1. Se calcula la longitud de la palabra codificada (semilla)</p>
+          <p id="decodeStep2">2. Para cada letra, se obtiene su código Unicode</p>
+          <p id="decodeStep3">3. Se resta la semilla más la posición de la letra</p>
+          <p id="decodeStep4">4. Se reemplaza la letra codificada por la letra original</p>
         </div>
       </div>
       
       <div class="char-process">
         <div class="char-box active">
-          <div class="char-label">Original</div>
-          <div class="char-value">h</div>
-          <div class="char-label">(104)</div>
+          <div class="char-label" id="originalLabel">Original</div>
+          <div class="char-value">K</div>
+          <div class="char-label">(75)</div>
         </div>
         
         <div class="arrow">→</div>
         
         <div class="char-box">
-          <div class="char-label">+ Longitud (4)</div>
+          <div class="char-label" id="lengthLabel">+ Longitud (6)</div>
           <div class="char-value">+</div>
         </div>
         
         <div class="arrow">→</div>
         
         <div class="char-box">
-          <div class="char-label">+ Posición (1)</div>
+          <div class="char-label" id="positionLabel">+ Posición (1)</div>
           <div class="char-value">+</div>
         </div>
         
         <div class="arrow">→</div>
         
         <div class="char-box active">
-          <div class="char-label">Resultado</div>
-          <div class="char-value">m</div>
-          <div class="char-label">(109)</div>
+          <div class="char-label" id="resultLabel2">Resultado</div>
+          <div class="char-value">Q</div>
+          <div class="char-label">(81)</div>
         </div>
       </div>
       
       <div class="example-box">
         <div class="example-title">
-          <i class="fas fa-star"></i> Ejemplo: "hola"
+          <i class="fas fa-star"></i> <span id="exampleTitle">Ejemplo:</span> <span id="exampleText">"Hola こんにちは"</span>
         </div>
-        <p><strong>Longitud (semilla):</strong> 4</p>
-        <p><strong>Codificación:</strong></p>
-        <p>'h' (104) → 104 + 4 + 1 = 109 → 'm'</p>
-        <p>'o' (111) → 111 + 4 + 2 = 117 → 'u'</p>
-        <p>'l' (108) → 108 + 4 + 3 = 115 → 's'</p>
-        <p>'a' (97) → 97 + 4 + 4 = 105 → 'i'</p>
-        <p><strong>Resultado:</strong> "musi"</p>
-      </div>
-      
-      <div class="example-box">
-        <div class="example-title">
-          <i class="fas fa-star"></i> Ejemplo con acentos: "canción"
-        </div>
-        <p><strong>Longitud (semilla):</strong> 7</p>
-        <p><strong>Codificación:</strong></p>
-        <p>'c' (99) → 99 + 7 + 1 = 107 → 'k'</p>
-        <p>'a' (97) → 97 + 7 + 2 = 106 → 'j'</p>
-        <p>'n' (110) → 110 + 7 + 3 = 120 → 'x'</p>
-        <p>'c' (99) → 99 + 7 + 4 = 110 → 'n'</p>
-        <p>'i' (105) → 105 + 7 + 5 = 117 → 'u'</p>
-        <p>'ó' (243) → 243 + 7 + 6 = 256 → 256 % 255 = 1 → 'á'</p>
-        <p>'n' (110) → 110 + 7 + 7 = 124 → '|'</p>
-        <p><strong>Resultado:</strong> "kjxnuá|"</p>
+        <p><strong id="encodeExample">Codificación (Español + Japonés):</strong></p>
+        <p id="exampleSteps">'H' → 'M'<br>'o' → 't'<br>'l' → 's'<br>'a' → 'e'<br>Espacio se mantiene<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'</p>
+        <p><strong id="resultLabel3">Resultado:</strong> <span id="exampleResult">"Mte ぶりどふむ"</span></p>
       </div>
       
       <div class="alphabet-info">
         <div class="alphabet-column">
-          <div class="alphabet-title">Alfabeto Minúsculas</div>
+          <div class="alphabet-title" id="charsTitle">Caracteres soportados</div>
           <div class="alphabet-list">
-            <div class="alphabet-char">a</div>
-            <div class="alphabet-char">b</div>
-            <div class="alphabet-char">c</div>
-            <div class="alphabet-char">d</div>
-            <div class="alphabet-char">e</div>
-            <div class="alphabet-char">f</div>
-            <div class="alphabet-char">g</div>
-            <div class="alphabet-char">h</div>
-            <div class="alphabet-char">i</div>
-            <div class="alphabet-char">j</div>
-            <div class="alphabet-char">k</div>
-            <div class="alphabet-char">l</div>
-            <div class="alphabet-char">m</div>
-            <div class="alphabet-char">n</div>
-            <div class="alphabet-char">o</div>
-            <div class="alphabet-char">p</div>
-            <div class="alphabet-char">q</div>
-            <div class="alphabet-char">r</div>
-            <div class="alphabet-char">s</div>
-            <div class="alphabet-char">t</div>
-            <div class="alphabet-char">u</div>
-            <div class="alphabet-char">v</div>
-            <div class="alphabet-char">w</div>
-            <div class="alphabet-char">x</div>
-            <div class="alphabet-char">y</div>
-            <div class="alphabet-char">z</div>
-            <div class="alphabet-char accent">á</div>
-            <div class="alphabet-char accent">é</div>
-            <div class="alphabet-char accent">í</div>
-            <div class="alphabet-char accent">ó</div>
-            <div class="alphabet-char accent">ú</div>
-            <div class="alphabet-char accent">ñ</div>
-          </div>
-        </div>
-        
-        <div class="alphabet-column">
-          <div class="alphabet-title">Alfabeto Mayúsculas</div>
-          <div class="alphabet-list">
-            <div class="alphabet-char">A</div>
-            <div class="alphabet-char">B</div>
-            <div class="alphabet-char">C</div>
-            <div class="alphabet-char">D</div>
-            <div class="alphabet-char">E</div>
-            <div class="alphabet-char">F</div>
-            <div class="alphabet-char">G</div>
-            <div class="alphabet-char">H</div>
-            <div class="alphabet-char">I</div>
-            <div class="alphabet-char">J</div>
-            <div class="alphabet-char">K</div>
-            <div class="alphabet-char">L</div>
-            <div class="alphabet-char">M</div>
-            <div class="alphabet-char">N</div>
-            <div class="alphabet-char">O</div>
-            <div class="alphabet-char">P</div>
-            <div class="alphabet-char">Q</div>
-            <div class="alphabet-char">R</div>
-            <div class="alphabet-char">S</div>
-            <div class="alphabet-char">T</div>
-            <div class="alphabet-char">U</div>
-            <div class="alphabet-char">V</div>
-            <div class="alphabet-char">W</div>
-            <div class="alphabet-char">X</div>
-            <div class="alphabet-char">Y</div>
-            <div class="alphabet-char">Z</div>
-            <div class="alphabet-char accent">Á</div>
-            <div class="alphabet-char accent">É</div>
-            <div class="alphabet-char accent">Í</div>
-            <div class="alphabet-char accent">Ó</div>
-            <div class="alphabet-char accent">Ú</div>
-            <div class="alphabet-char accent">Ñ</div>
+            <div class="alphabet-char">A-Z</div>
+            <div class="alphabet-char">a-z</div>
+            <div class="alphabet-char">ÁÉÍÓÚ</div>
+            <div class="alphabet-char">áéíóú</div>
+            <div class="alphabet-char">Ññ</div>
+            <div class="alphabet-char">ÄÖÜ</div>
+            <div class="alphabet-char">äöü</div>
+            <div class="alphabet-char">ÀÂ</div>
+            <div class="alphabet-char">àâ</div>
+            <div class="alphabet-char">Ç</div>
+            <div class="alphabet-char">ç</div>
+            <div class="alphabet-char">日本語</div>
+            <div class="alphabet-char">中文</div>
+            <div class="alphabet-char">한글</div>
+            <div class="alphabet-char">Русский</div>
           </div>
         </div>
       </div>
     </div>
     
     <footer>
-      <p>Desarrollado con <i class="fas fa-heart" style="color: var(--secondary);"></i> por <a href="https://github.com/soulh34rt" target="_blank">ADA</a></p>
-      <p>Kodita Jarnyx y el sitio web de Kodita Jarnyx son sistemas de uso libre bajo la licencia GNU V3.0.</p>
-      <p>Diseñado y programado por José B</p>
+      <p id="developedBy">Desarrollado con <i class="fas fa-heart" style="color: var(--secondary);"></i> por <a href="https://github.com/soulh34rt" target="_blank">ADA</a></p>
+      <p id="licenseText">Kodita Jarnyx y el sitio web de Kodita Jarnyx son sistemas de uso libre bajo la licencia GNU V3.0.</p>
+      <p id="authorText">Diseñado y programado por José B</p>
     </footer>
   </div>
 
@@ -816,12 +823,224 @@
     const inputText = document.getElementById('inputText');
     const output = document.getElementById('output');
     const modeText = document.getElementById('modeText');
-    const processBtn = document.getElementById('processBtn');
     const actionBtns = document.querySelectorAll('.action-btn');
     const copyBtn = document.getElementById('copyBtn');
+    const copyAllBtn = document.getElementById('copyAllBtn');
+    const langBtns = document.querySelectorAll('.lang-btn');
+    const translateIcon = document.getElementById('translateIcon');
     
     // Modo actual
-    let currentMode = 'auto';
+    let currentMode = 'encode';
+    let currentLang = 'es';
+    
+    // Traducciones con ADA como enlace en todas las versiones
+    const translations = {
+      es: {
+        appTitle: "Kodita Jarnyx",
+        appSubtitle: "Codificador y decodificador avanzado con algoritmo basado en posición y longitud",
+        modeLabel: "Modo:",
+        inputLabel: "Texto de entrada",
+        infoTip: "Soporta múltiples idiomas",
+        encodeBtn: "Codificar",
+        decodeBtn: "Decodificar",
+        resultLabel: "Resultado",
+        resultPlaceholder: "El resultado aparecerá aquí automáticamente...",
+        copyBtnText: "Copiar",
+        copyAllBtnText: "Copiar Todo",
+        howItWorks: "¿Cómo funciona Kodita Jarnyx?",
+        explanationText: "Kodita Jarnyx es un método avanzado para codificar y decodificar textos cambiando cada letra según su posición en la palabra y la longitud de esa palabra.",
+        newsLabel: "Novedades:",
+        newsText: "Versión 1.0 - Soporte completo para múltiples idiomas, caracteres especiales y procesamiento automático. Los espacios y símbolos se mantienen intactos.",
+        encodeTitle: "Para codificar:",
+        encodeStep1: "1. Se calcula la longitud de la palabra (semilla)",
+        encodeStep2: "2. Para cada letra, se obtiene su código Unicode",
+        encodeStep3: "3. Se suma la semilla más la posición de la letra",
+        encodeStep4: "4. Se reemplaza la letra original por la nueva letra obtenida",
+        decodeTitle: "Para decodificar:",
+        decodeStep1: "1. Se calcula la longitud de la palabra codificada (semilla)",
+        decodeStep2: "2. Para cada letra, se obtiene su código Unicode",
+        decodeStep3: "3. Se resta la semilla más la posición de la letra",
+        decodeStep4: "4. Se reemplaza la letra codificada por la letra original",
+        originalLabel: "Original",
+        lengthLabel: "+ Longitud (6)",
+        positionLabel: "+ Posición (1)",
+        resultLabel2: "Resultado",
+        exampleTitle: "Ejemplo:",
+        exampleText: "\"Hola こんにちは\"",
+        encodeExample: "Codificación (Español + Japonés):",
+        exampleSteps: "'H' → 'M'<br>'o' → 't'<br>'l' → 's'<br>'a' → 'e'<br>Espacio se mantiene<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        resultLabel3: "Resultado:",
+        exampleResult: "\"Mte ぶりどふむ\"",
+        charsTitle: "Caracteres soportados",
+        developedBy: "Desarrollado con ♥ por ",
+        licenseText: "Kodita Jarnyx y el sitio web de Kodita Jarnyx son sistemas de uso libre bajo la licencia GNU V3.0.",
+        authorText: "Diseñado y programado por José B"
+      },
+      en: {
+        appTitle: "Kodita Jarnyx",
+        appSubtitle: "Advanced encoder and decoder with position and length based algorithm",
+        modeLabel: "Mode:",
+        inputLabel: "Input Text",
+        infoTip: "Supports multiple languages",
+        encodeBtn: "Encode",
+        decodeBtn: "Decode",
+        resultLabel: "Result",
+        resultPlaceholder: "Result will appear here automatically...",
+        copyBtnText: "Copy",
+        copyAllBtnText: "Copy All",
+        howItWorks: "How does Kodita Jarnyx work?",
+        explanationText: "Kodita Jarnyx is an advanced method for encoding and decoding text by changing each letter based on its position in the word and the length of that word.",
+        newsLabel: "News:",
+        newsText: "Version 1.0 - Full support for multiple languages, special characters and automatic processing. Spaces and symbols remain intact.",
+        encodeTitle: "To encode:",
+        encodeStep1: "1. Calculate the word length (seed)",
+        encodeStep2: "2. Get Unicode code for each letter",
+        encodeStep3: "3. Add seed plus letter position",
+        encodeStep4: "4. Replace original letter with the new one",
+        decodeTitle: "To decode:",
+        decodeStep1: "1. Calculate the encoded word length (seed)",
+        decodeStep2: "2. Get Unicode code for each letter",
+        decodeStep3: "3. Subtract seed plus letter position",
+        decodeStep4: "4. Replace encoded letter with original",
+        originalLabel: "Original",
+        lengthLabel: "+ Length (6)",
+        positionLabel: "+ Position (1)",
+        resultLabel2: "Result",
+        exampleTitle: "Example:",
+        exampleText: "\"Hello こんにちは\"",
+        encodeExample: "Encoding (English + Japanese):",
+        exampleSteps: "'H' → 'M'<br>'e' → 'j'<br>'l' → 's'<br>'l' → 's'<br>'o' → 't'<br>Space preserved<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        resultLabel3: "Result:",
+        exampleResult: "\"Mjstt ぶりどふむ\"",
+        charsTitle: "Supported characters",
+        developedBy: "Developed with ♥ by ",
+        licenseText: "Kodita Jarnyx and Kodita Jarnyx website are free to use under GNU V3.0 license.",
+        authorText: "Designed and programmed by José B"
+      },
+      fr: {
+        appTitle: "Kodita Jarnyx",
+        appSubtitle: "Encodeur et décodeur avancé avec algorithme basé sur la position et la longueur",
+        modeLabel: "Mode:",
+        inputLabel: "Texte d'entrée",
+        infoTip: "Prend en charge plusieurs langues",
+        encodeBtn: "Encoder",
+        decodeBtn: "Décoder",
+        resultLabel: "Résultat",
+        resultPlaceholder: "Le résultat apparaîtra ici automatiquement...",
+        copyBtnText: "Copier",
+        copyAllBtnText: "Tout copier",
+        howItWorks: "Comment fonctionne Kodita Jarnyx ?",
+        explanationText: "Kodita Jarnyx est une méthode avancée pour encoder et décoder du texte en modifiant chaque lettre en fonction de sa position dans le mot et de la longueur de ce mot.",
+        newsLabel: "Nouveautés:",
+        newsText: "Version 1.0 - Prise en charge complète de plusieurs langues, caractères spéciaux et traitement automatique. Les espaces et symboles restent intacts.",
+        encodeTitle: "Pour encoder :",
+        encodeStep1: "1. Calculez la longueur du mot (graine)",
+        encodeStep2: "2. Obtenez le code Unicode pour chaque lettre",
+        encodeStep3: "3. Ajoutez la graine plus la position de la lettre",
+        encodeStep4: "4. Remplacez la lettre originale par la nouvelle",
+        decodeTitle: "Pour décoder :",
+        decodeStep1: "1. Calculez la longueur du mot encodé (graine)",
+        decodeStep2: "2. Obtenez le code Unicode pour chaque lettre",
+        decodeStep3: "3. Soustrayez la graine plus la position de la lettre",
+        decodeStep4: "4. Remplacez la lettre encodée par l'originale",
+        originalLabel: "Original",
+        lengthLabel: "+ Longueur (6)",
+        positionLabel: "+ Position (1)",
+        resultLabel2: "Résultat",
+        exampleTitle: "Exemple :",
+        exampleText: "\"Bonjour こんにちは\"",
+        encodeExample: "Encodage (Français + Japonais):",
+        exampleSteps: "'B' → 'H'<br>'o' → 't'<br>'n' → 's'<br>'j' → 'o'<br>'o' → 't'<br>'u' → 'z'<br>'r' → 'y'<br>Espace préservé<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        resultLabel3: "Résultat :",
+        exampleResult: "\"Htotzy ぶりどふむ\"",
+        charsTitle: "Caractères pris en charge",
+        developedBy: "Développé avec ♥ par ",
+        licenseText: "Kodita Jarnyx et le site web Kodita Jarnyx sont libres d'utilisation sous licence GNU V3.0.",
+        authorText: "Conçu et programmé par José B"
+      },
+      de: {
+        appTitle: "Kodita Jarnyx",
+        appSubtitle: "Fortgeschrittener Encoder und Decoder mit positions- und längenbasierter Algorithmus",
+        modeLabel: "Modus:",
+        inputLabel: "Eingabetext",
+        infoTip: "Unterstützt mehrere Sprachen",
+        encodeBtn: "Verschlüsseln",
+        decodeBtn: "Entschlüsseln",
+        resultLabel: "Ergebnis",
+        resultPlaceholder: "Ergebnis wird hier automatisch angezeigt...",
+        copyBtnText: "Kopieren",
+        copyAllBtnText: "Alles kopieren",
+        howItWorks: "Wie funktioniert Kodita Jarnyx?",
+        explanationText: "Kodita Jarnyx ist eine fortschrittliche Methode zum Verschlüsseln und Entschlüsseln von Text, indem jeder Buchstabe basierend auf seiner Position im Wort und der Länge dieses Wortes geändert wird.",
+        newsLabel: "Neuigkeiten:",
+        newsText: "Version 1.0 - Vollständige Unterstützung für mehrere Sprachen, Sonderzeichen und automatische Verarbeitung. Leerzeichen und Symbole bleiben unverändert.",
+        encodeTitle: "Zum Verschlüsseln:",
+        encodeStep1: "1. Berechnen Sie die Wortlänge (Saat)",
+        encodeStep2: "2. Holen Sie den Unicode-Code für jeden Buchstaben",
+        encodeStep3: "3. Fügen Sie Saat plus Buchstabenposition hinzu",
+        encodeStep4: "4. Ersetzen Sie den ursprünglichen Buchstaben durch den neuen",
+        decodeTitle: "Zum Entschlüsseln:",
+        decodeStep1: "1. Berechnen Sie die Länge des verschlüsselten Wortes (Saat)",
+        decodeStep2: "2. Holen Sie den Unicode-Code für jeden Buchstaben",
+        decodeStep3: "3. Subtrahieren Sie Saat plus Buchstabenposition",
+        decodeStep4: "4. Ersetzen Sie den verschlüsselten Buchstaben durch das Original",
+        originalLabel: "Original",
+        lengthLabel: "+ Länge (6)",
+        positionLabel: "+ Position (1)",
+        resultLabel2: "Ergebnis",
+        exampleTitle: "Beispiel:",
+        exampleText: "\"Hallo こんにちは\"",
+        encodeExample: "Verschlüsselung (Deutsch + Japanisch):",
+        exampleSteps: "'H' → 'M'<br>'a' → 'g'<br>'l' → 's'<br>'l' → 's'<br>'o' → 't'<br>Leerzeichen erhalten<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        resultLabel3: "Ergebnis:",
+        exampleResult: "\"Mgsst ぶりどふむ\"",
+        charsTitle: "Unterstützte Zeichen",
+        developedBy: "Entwickelt mit ♥ von ",
+        licenseText: "Kodita Jarnyx und die Kodita Jarnyx-Website sind unter der GNU V3.0-Lizenz frei nutzbar.",
+        authorText: "Entworfen und programmiert von José B"
+      },
+      jp: {
+        appTitle: "コディタ・ジャーニクス",
+        appSubtitle: "位置と長さに基づく高度なエンコーダー・デコーダー",
+        modeLabel: "モード：",
+        inputLabel: "入力テキスト",
+        infoTip: "多言語対応",
+        encodeBtn: "エンコード",
+        decodeBtn: "デコード",
+        resultLabel: "結果",
+        resultPlaceholder: "結果はここに自動的に表示されます...",
+        copyBtnText: "コピー",
+        copyAllBtnText: "すべてコピー",
+        howItWorks: "コディタ・ジャーニクスの仕組み",
+        explanationText: "コディタ・ジャーニクスは、単語内の位置と単語の長さに基づいて各文字を変更することで、テキストをエンコードおよびデコードする高度な方法です。",
+        newsLabel: "新着情報：",
+        newsText: "バージョン1.0 - 多言語、特殊文字、自動処理を完全サポート。スペースと記号はそのまま残ります。",
+        encodeTitle: "エンコード方法：",
+        encodeStep1: "1. 単語の長さを計算（シード）",
+        encodeStep2: "2. 各文字のUnicodeコードを取得",
+        encodeStep3: "3. シードと文字位置を加算",
+        encodeStep4: "4. 元の文字を新しい文字に置換",
+        decodeTitle: "デコード方法：",
+        decodeStep1: "1. エンコードされた単語の長さを計算（シード）",
+        decodeStep2: "2. 各文字のUnicodeコードを取得",
+        decodeStep3: "3. シードと文字位置を減算",
+        decodeStep4: "4. エンコードされた文字を元の文字に置換",
+        originalLabel: "元の文字",
+        lengthLabel: "+ 長さ (6)",
+        positionLabel: "+ 位置 (1)",
+        resultLabel2: "結果",
+        exampleTitle: "例：",
+        exampleText: "\"こんにちは Hello\"",
+        encodeExample: "エンコード（日本語 + 英語）：",
+        exampleSteps: "'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'<br>スペースを維持<br>'H' → 'M'<br>'e' → 'j'<br>'l' → 's'<br>'l' → 's'<br>'o' → 't'",
+        resultLabel3: "結果：",
+        exampleResult: "\"ぶりどふむ Mjsst\"",
+        charsTitle: "対応文字",
+        developedBy: "♡ により開発 ",
+        licenseText: "コディタ・ジャーニクスとそのウェブサイトは、GNU V3.0ライセンスの下で自由に使用できます。",
+        authorText: "設計・開発：ホセ・B"
+      }
+    };
     
     // Crear partículas de fondo
     function createParticles() {
@@ -850,10 +1069,75 @@
       }
     }
     
+    // Cambiar idioma
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      
+      // Actualizar todos los textos
+      document.getElementById('appTitle').textContent = t.appTitle;
+      document.getElementById('appSubtitle').textContent = t.appSubtitle;
+      document.getElementById('modeLabel').textContent = t.modeLabel;
+      document.getElementById('inputLabel').textContent = t.inputLabel;
+      document.getElementById('infoTip').textContent = t.infoTip;
+      document.getElementById('encodeBtn').textContent = t.encodeBtn;
+      document.getElementById('decodeBtn').textContent = t.decodeBtn;
+      document.getElementById('resultLabel').textContent = t.resultLabel;
+      document.getElementById('copyBtnText').textContent = t.copyBtnText;
+      document.getElementById('copyAllBtnText').textContent = t.copyAllBtnText;
+      document.getElementById('howItWorks').textContent = t.howItWorks;
+      document.getElementById('explanationText').textContent = t.explanationText;
+      document.getElementById('newsLabel').textContent = t.newsLabel;
+      document.getElementById('newsText').textContent = t.newsText;
+      document.getElementById('encodeTitle').textContent = t.encodeTitle;
+      document.getElementById('encodeStep1').textContent = t.encodeStep1;
+      document.getElementById('encodeStep2').textContent = t.encodeStep2;
+      document.getElementById('encodeStep3').textContent = t.encodeStep3;
+      document.getElementById('encodeStep4').textContent = t.encodeStep4;
+      document.getElementById('decodeTitle').textContent = t.decodeTitle;
+      document.getElementById('decodeStep1').textContent = t.decodeStep1;
+      document.getElementById('decodeStep2').textContent = t.decodeStep2;
+      document.getElementById('decodeStep3').textContent = t.decodeStep3;
+      document.getElementById('decodeStep4').textContent = t.decodeStep4;
+      document.getElementById('originalLabel').textContent = t.originalLabel;
+      document.getElementById('lengthLabel').textContent = t.lengthLabel;
+      document.getElementById('positionLabel').textContent = t.positionLabel;
+      document.getElementById('resultLabel2').textContent = t.resultLabel2;
+      document.getElementById('exampleTitle').textContent = t.exampleTitle;
+      document.getElementById('exampleText').textContent = t.exampleText;
+      document.getElementById('encodeExample').textContent = t.encodeExample;
+      document.getElementById('exampleSteps').innerHTML = t.exampleSteps;
+      document.getElementById('resultLabel3').textContent = t.resultLabel3;
+      document.getElementById('exampleResult').textContent = t.exampleResult;
+      document.getElementById('charsTitle').textContent = t.charsTitle;
+      document.getElementById('licenseText').textContent = t.licenseText;
+      document.getElementById('authorText').textContent = t.authorText;
+      
+      // Actualizar el texto "Desarrollado por" con ADA como enlace
+      const developedByElement = document.getElementById('developedBy');
+      developedByElement.innerHTML = `${t.developedBy}<a href="https://github.com/soulh34rt" target="_blank">ADA</a>`;
+      
+      // Actualizar placeholder
+      inputText.placeholder = lang === 'jp' ? "テキストを入力または貼り付け..." : `${t.encodeBtn} ${t.inputLabel.toLowerCase()}...`;
+      
+      // Actualizar modo
+      updateModeText();
+    }
+    
+    // Actualizar texto de modo
+    function updateModeText() {
+      const t = translations[currentLang];
+      modeText.textContent = currentMode === 'encode' ? t.encodeBtn : t.decodeBtn;
+      modeText.style.color = currentMode === 'encode' ? '#6a67ce' : '#ff4d94';
+    }
+    
     // Event listeners
     inputText.addEventListener('input', processText);
-    processBtn.addEventListener('click', processText);
     copyBtn.addEventListener('click', copyResult);
+    copyAllBtn.addEventListener('click', copyAll);
+    translateIcon.addEventListener('click', () => {
+      document.querySelector('.language-selector').scrollIntoView({ behavior: 'smooth' });
+    });
     
     actionBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -871,18 +1155,59 @@
       });
     });
     
+    langBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        
+        langBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        changeLanguage(lang);
+        
+        // Ejemplos según el idioma seleccionado
+        let example = '';
+        
+        switch(lang) {
+          case 'es':
+            example = "Hola mundo con acentos: áéíóúñ";
+            break;
+          case 'en':
+            example = "Hello world! This is an example.";
+            break;
+          case 'fr':
+            example = "Bonjour le monde! C'est un exemple.";
+            break;
+          case 'de':
+            example = "Hallo Welt! Das ist ein Beispiel.";
+            break;
+          case 'jp':
+            example = "こんにちは世界！これは例です。";
+            break;
+          default:
+            example = "Hello こんにちは! This is a multilingual example.";
+        }
+        
+        inputText.value = example;
+        processText();
+      });
+    });
+    
     // Copiar resultado al portapapeles
     function copyResult() {
       const text = output.innerText;
-      if (text && text !== 'El resultado aparecerá aquí...') {
+      if (text && !text.includes('automáticamente') && !text.includes('automatically')) {
         navigator.clipboard.writeText(text)
           .then(() => {
-            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            document.getElementById('copyBtnText').textContent = translations[currentLang].copyBtnText === 'Copiar' ? '¡Copiado!' : 
+                                                               translations[currentLang].copyBtnText === 'Copy' ? 'Copied!' :
+                                                               translations[currentLang].copyBtnText === 'Copier' ? 'Copié !' :
+                                                               translations[currentLang].copyBtnText === 'Kopieren' ? 'Kopiert!' : 'コピーしました！';
+            
             copyBtn.style.opacity = '1';
             output.classList.add('success');
             
             setTimeout(() => {
-              copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+              document.getElementById('copyBtnText').textContent = translations[currentLang].copyBtnText;
               copyBtn.style.opacity = '0.7';
               output.classList.remove('success');
             }, 2000);
@@ -893,103 +1218,81 @@
       }
     }
     
-    // Función principal para procesar texto - CORREGIDA
+    // Copiar todo (entrada + resultado)
+    function copyAll() {
+      const input = inputText.value;
+      const result = output.innerText;
+      
+      if (input && !result.includes('automáticamente') && !result.includes('automatically')) {
+        const t = translations[currentLang];
+        const textToCopy = `${t.inputLabel}:\n${input}\n\n${t.resultLabel} (${currentMode === 'encode' ? t.encodeBtn : t.decodeBtn}):\n${result}`;
+        
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            const originalText = document.getElementById('copyAllBtnText').textContent;
+            document.getElementById('copyAllBtnText').textContent = t.copyAllBtnText === 'Copiar Todo' ? '¡Todo Copiado!' : 
+                                                                   t.copyAllBtnText === 'Copy All' ? 'All Copied!' :
+                                                                   t.copyAllBtnText === 'Tout copier' ? 'Tout Copié !' :
+                                                                   t.copyAllBtnText === 'Alles kopieren' ? 'Alles Kopiert!' : 'すべてコピーしました！';
+            
+            setTimeout(() => {
+              document.getElementById('copyAllBtnText').textContent = originalText;
+            }, 2000);
+          })
+          .catch(err => {
+            console.error('Error al copiar: ', err);
+          });
+      }
+    }
+    
+    // Función para transformar un carácter
+    function transformChar(char, seed, position, mode) {
+      const charCode = char.codePointAt(0);
+      let shift = mode === 'encode' ? seed + position : -(seed + position);
+      return String.fromCodePoint(charCode + shift);
+    }
+    
+    // Función principal para procesar texto
     function processText() {
       const text = inputText.value;
-      let mode = currentMode;
-      
-      // Determinar modo automático
-      if (mode === 'auto') {
-        mode = /[A-ZÁÉÍÓÚÑ]/.test(text) ? 'decode' : 'encode';
-      }
       
       // Actualizar indicador de modo
-      modeText.textContent = mode === 'encode' ? 'Codificación' : 'Decodificación';
-      modeText.style.color = mode === 'encode' ? '#6a67ce' : '#ff4d94';
+      updateModeText();
       
       // Procesar texto
       if (text.trim() === '') {
-        output.textContent = 'El resultado aparecerá aquí...';
+        output.textContent = translations[currentLang].resultPlaceholder;
+        output.classList.remove('result-fade');
         return;
       }
       
-      const words = text.split(/(\s+)/);
-      const result = words.map(w => {
-        if (/^\s+$/.test(w)) return w; // Preservar espacios
+      const words = text.split(/(?<=\s)|(?=\s)/);
+      const result = words.map(word => {
+        // Si es espacio u otro carácter no alfabético, mantenerlo tal cual
+        if (!/\p{L}/u.test(word)) return word;
         
-        const seed = w.length;
-        return [...w].map((char, index) => {
-          const charCode = char.charCodeAt(0);
-          const position = index + 1;
-          const shift = seed + position;
-          
+        const seed = [...word].filter(char => /\p{L}/u.test(char)).length;
+        let position = 0;
+        
+        return [...word].map(char => {
           // Solo procesar caracteres alfabéticos
-          if (!/[a-zA-ZÁÉÍÓÚÑáéíóúñ]/.test(char)) return char;
-          
-          // Determinar límites del alfabeto
-          let minCode, maxCode;
-          if (char >= 'a' && char <= 'z') {
-            minCode = 97; // 'a'
-            maxCode = 122; // 'z'
-          } else if (char >= 'A' && char <= 'Z') {
-            minCode = 65; // 'A'
-            maxCode = 90; // 'Z'
-          } else {
-            // Caracteres extendidos (acentuados)
-            minCode = 192;
-            maxCode = 255;
+          if (/\p{L}/u.test(char)) {
+            position++;
+            return transformChar(char, seed, position, currentMode);
           }
-          
-          let newCode;
-          if (mode === 'encode') {
-            newCode = charCode + shift;
-            // Ajustar si supera el rango
-            while (newCode > maxCode) {
-              newCode = minCode + (newCode - maxCode - 1);
-            }
-          } else {
-            newCode = charCode - shift;
-            // Ajustar si es menor al rango
-            while (newCode < minCode) {
-              newCode = maxCode - (minCode - newCode - 1);
-            }
-          }
-          
-          return String.fromCharCode(newCode);
+          return char;
         }).join('');
       }).join('');
       
       // Mostrar resultado con animación
-      output.textContent = '';
-      let index = 0;
-      const speed = 20; // ms por carácter
-      
-      function typeWriter() {
-        if (index < result.length) {
-          output.textContent += result.charAt(index);
-          index++;
-          setTimeout(typeWriter, speed);
-        } else {
-          // Efecto de finalización
-          output.style.boxShadow = '0 0 15px rgba(106, 103, 206, 0.3)';
-          setTimeout(() => {
-            output.style.boxShadow = '';
-          }, 1000);
-        }
-      }
-      
-      typeWriter();
+      output.textContent = result;
+      output.classList.add('result-fade');
+      setTimeout(() => output.classList.remove('result-fade'), 500);
     }
     
     // Inicialización
     createParticles();
     processText();
-    
-    // Demo de texto al cargar
-    setTimeout(() => {
-      inputText.value = "Musi Musi";
-      processText();
-    }, 500);
   </script>
 </body>
 </html>
