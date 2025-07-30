@@ -13,7 +13,7 @@ Esta diseñada para ser sencilla de aprender y ser una introducción a la codifi
   https://t.me/Awr2fw</p> 
 <p align="center">
   <strong>Kodita Jarnyx se rige bajo la licencia GNU 3.0 </strong><br>
-  La rata se llama Kodita <strong>le gusta el queso </strong> y <strong>ver peliculas</strong><br>
+  La rata se llama Kodita, <strong>le gusta el queso </strong> y <strong>ver peliculas</strong><br>
   </code>
 </p>
 
