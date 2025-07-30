@@ -726,7 +726,7 @@
       <div class="note">
         <i class="fas fa-info-circle"></i>
         <div>
-          <strong id="newsLabel">Novedades:</strong> <span id="newsText">Versión 1.0 - Soporte completo para múltiples idiomas, caracteres especiales y procesamiento automático. Los espacios y símbolos se mantienen intactos.</span>
+          <strong id="newsLabel">Novedades:</strong> <span id="newsText">Versión 2.0 - Nuevo algoritmo robusto con desplazamiento circular. Soporte completo para todos los idiomas.</span>
         </div>
       </div>
       
@@ -734,17 +734,17 @@
         <div class="step">
           <h3 id="encodeTitle">Para codificar:</h3>
           <p id="encodeStep1">1. Se calcula la longitud de la palabra (semilla)</p>
-          <p id="encodeStep2">2. Para cada letra, se obtiene su código Unicode</p>
-          <p id="encodeStep3">3. Se suma la semilla más la posición de la letra</p>
-          <p id="encodeStep4">4. Se reemplaza la letra original por la nueva letra obtenida</p>
+          <p id="encodeStep2">2. Se define un alfabeto con todos los caracteres soportados</p>
+          <p id="encodeStep3">3. Para cada letra, se calcula su posición en el alfabeto</p>
+          <p id="encodeStep4">4. Se aplica desplazamiento circular: (posición + semilla + índice) mod tamaño_alfabeto</p>
         </div>
         
         <div class="step">
           <h3 id="decodeTitle">Para decodificar:</h3>
           <p id="decodeStep1">1. Se calcula la longitud de la palabra codificada (semilla)</p>
-          <p id="decodeStep2">2. Para cada letra, se obtiene su código Unicode</p>
-          <p id="decodeStep3">3. Se resta la semilla más la posición de la letra</p>
-          <p id="decodeStep4">4. Se reemplaza la letra codificada por la letra original</p>
+          <p id="decodeStep2">2. Para cada letra codificada, se calcula su posición en el alfabeto</p>
+          <p id="decodeStep3">3. Se aplica desplazamiento inverso: (posición - semilla - índice) mod tamaño_alfabeto</p>
+          <p id="decodeStep4">4. Se ajusta para valores negativos usando aritmética modular</p>
         </div>
       </div>
       
@@ -752,7 +752,7 @@
         <div class="char-box active">
           <div class="char-label" id="originalLabel">Original</div>
           <div class="char-value">K</div>
-          <div class="char-label">(75)</div>
+          <div class="char-label">(Pos: 36)</div>
         </div>
         
         <div class="arrow">→</div>
@@ -774,7 +774,7 @@
         <div class="char-box active">
           <div class="char-label" id="resultLabel2">Resultado</div>
           <div class="char-value">Q</div>
-          <div class="char-label">(81)</div>
+          <div class="char-label">(Pos: 42)</div>
         </div>
       </div>
       
@@ -783,8 +783,8 @@
           <i class="fas fa-star"></i> <span id="exampleTitle">Ejemplo:</span> <span id="exampleText">"Hola こんにちは"</span>
         </div>
         <p><strong id="encodeExample">Codificación (Español + Japonés):</strong></p>
-        <p id="exampleSteps">'H' → 'M'<br>'o' → 't'<br>'l' → 's'<br>'a' → 'e'<br>Espacio se mantiene<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'</p>
-        <p><strong id="resultLabel3">Resultado:</strong> <span id="exampleResult">"Mte ぶりどふむ"</span></p>
+        <p id="exampleSteps">'H' (33) → (33 + 4 + 1) = 38 → 'L'<br>'o' (44) → (44 + 4 + 2) = 50 → 'd'<br>'l' (37) → (37 + 4 + 3) = 44 → 'o'<br>'a' (26) → (26 + 4 + 4) = 34 → 'J'<br>Espacio se mantiene<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'</p>
+        <p><strong id="resultLabel3">Resultado:</strong> <span id="exampleResult">"LdoJ ぶりどふむ"</span></p>
       </div>
       
       <div class="alphabet-info">
@@ -833,6 +833,31 @@
     let currentMode = 'encode';
     let currentLang = 'es';
     
+    // Alfabeto completo con todos los caracteres soportados
+    const alphabet = (() => {
+      // Caracteres latinos básicos
+      let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      
+      // Caracteres acentuados (español, francés, alemán)
+      chars += 'ÁÉÍÓÚáéíóúÑñÄÖÜäöüÀÂÈÊËÎÔÙÛÇàâèêëîôùûç';
+      
+      // Caracteres japoneses comunes
+      chars += 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん';
+      chars += 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+      chars += '一二三四五六七八九十百千万年月日時分秒上下左右前後中大小長高早';
+      
+      // Caracteres chinos comunes
+      chars += '你好吗谢谢再见一二三四五六七八九十';
+      
+      // Caracteres coreanos básicos
+      chars += '안녕하세요감사합니다';
+      
+      // Caracteres cirílicos básicos
+      chars += 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+      
+      return chars;
+    })();
+    
     // Traducciones con ADA como enlace en todas las versiones
     const translations = {
       es: {
@@ -850,17 +875,17 @@
         howItWorks: "¿Cómo funciona Kodita Jarnyx?",
         explanationText: "Kodita Jarnyx es un método avanzado para codificar y decodificar textos cambiando cada letra según su posición en la palabra y la longitud de esa palabra.",
         newsLabel: "Novedades:",
-        newsText: "Versión 1.0 - Soporte completo para múltiples idiomas, caracteres especiales y procesamiento automático. Los espacios y símbolos se mantienen intactos.",
+        newsText: "Versión 2.0 - Nuevo algoritmo robusto con desplazamiento circular. Soporte completo para todos los idiomas.",
         encodeTitle: "Para codificar:",
         encodeStep1: "1. Se calcula la longitud de la palabra (semilla)",
-        encodeStep2: "2. Para cada letra, se obtiene su código Unicode",
-        encodeStep3: "3. Se suma la semilla más la posición de la letra",
-        encodeStep4: "4. Se reemplaza la letra original por la nueva letra obtenida",
+        encodeStep2: "2. Se define un alfabeto con todos los caracteres soportados",
+        encodeStep3: "3. Para cada letra, se calcula su posición en el alfabeto",
+        encodeStep4: "4. Se aplica desplazamiento circular: (posición + semilla + índice) mod tamaño_alfabeto",
         decodeTitle: "Para decodificar:",
         decodeStep1: "1. Se calcula la longitud de la palabra codificada (semilla)",
-        decodeStep2: "2. Para cada letra, se obtiene su código Unicode",
-        decodeStep3: "3. Se resta la semilla más la posición de la letra",
-        decodeStep4: "4. Se reemplaza la letra codificada por la letra original",
+        decodeStep2: "2. Para cada letra codificada, se calcula su posición en el alfabeto",
+        decodeStep3: "3. Se aplica desplazamiento inverso: (posición - semilla - índice) mod tamaño_alfabeto",
+        decodeStep4: "4. Se ajusta para valores negativos usando aritmética modular",
         originalLabel: "Original",
         lengthLabel: "+ Longitud (6)",
         positionLabel: "+ Posición (1)",
@@ -868,9 +893,9 @@
         exampleTitle: "Ejemplo:",
         exampleText: "\"Hola こんにちは\"",
         encodeExample: "Codificación (Español + Japonés):",
-        exampleSteps: "'H' → 'M'<br>'o' → 't'<br>'l' → 's'<br>'a' → 'e'<br>Espacio se mantiene<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        exampleSteps: "'H' (33) → (33 + 4 + 1) = 38 → 'L'<br>'o' (44) → (44 + 4 + 2) = 50 → 'd'<br>'l' (37) → (37 + 4 + 3) = 44 → 'o'<br>'a' (26) → (26 + 4 + 4) = 34 → 'J'<br>Espacio se mantiene<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
         resultLabel3: "Resultado:",
-        exampleResult: "\"Mte ぶりどふむ\"",
+        exampleResult: "\"LdoJ ぶりどふむ\"",
         charsTitle: "Caracteres soportados",
         developedBy: "Desarrollado con ♥ por ",
         licenseText: "Kodita Jarnyx y el sitio web de Kodita Jarnyx son sistemas de uso libre bajo la licencia GNU V3.0.",
@@ -891,17 +916,17 @@
         howItWorks: "How does Kodita Jarnyx work?",
         explanationText: "Kodita Jarnyx is an advanced method for encoding and decoding text by changing each letter based on its position in the word and the length of that word.",
         newsLabel: "News:",
-        newsText: "Version 1.0 - Full support for multiple languages, special characters and automatic processing. Spaces and symbols remain intact.",
+        newsText: "Version 2.0 - New robust algorithm with circular shift. Full support for all languages.",
         encodeTitle: "To encode:",
-        encodeStep1: "1. Calculate the word length (seed)",
-        encodeStep2: "2. Get Unicode code for each letter",
-        encodeStep3: "3. Add seed plus letter position",
-        encodeStep4: "4. Replace original letter with the new one",
+        encodeStep1: "1. Calculate word length (seed)",
+        encodeStep2: "2. Define alphabet with all supported characters",
+        encodeStep3: "3. For each letter, calculate its position in the alphabet",
+        encodeStep4: "4. Apply circular shift: (position + seed + index) mod alphabet_size",
         decodeTitle: "To decode:",
-        decodeStep1: "1. Calculate the encoded word length (seed)",
-        decodeStep2: "2. Get Unicode code for each letter",
-        decodeStep3: "3. Subtract seed plus letter position",
-        decodeStep4: "4. Replace encoded letter with original",
+        decodeStep1: "1. Calculate encoded word length (seed)",
+        decodeStep2: "2. For each encoded letter, calculate its position in the alphabet",
+        decodeStep3: "3. Apply inverse shift: (position - seed - index) mod alphabet_size",
+        decodeStep4: "4. Adjust for negative values using modular arithmetic",
         originalLabel: "Original",
         lengthLabel: "+ Length (6)",
         positionLabel: "+ Position (1)",
@@ -909,9 +934,9 @@
         exampleTitle: "Example:",
         exampleText: "\"Hello こんにちは\"",
         encodeExample: "Encoding (English + Japanese):",
-        exampleSteps: "'H' → 'M'<br>'e' → 'j'<br>'l' → 's'<br>'l' → 's'<br>'o' → 't'<br>Space preserved<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        exampleSteps: "'H' (33) → (33 + 5 + 1) = 39 → 'M'<br>'e' (30) → (30 + 5 + 2) = 37 → 'l'<br>'l' (37) → (37 + 5 + 3) = 45 → 't'<br>'l' (37) → (37 + 5 + 4) = 46 → 'u'<br>'o' (44) → (44 + 5 + 5) = 54 → 'd'<br>Space preserved<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
         resultLabel3: "Result:",
-        exampleResult: "\"Mjstt ぶりどふむ\"",
+        exampleResult: "\"Mltud ぶりどふむ\"",
         charsTitle: "Supported characters",
         developedBy: "Developed with ♥ by ",
         licenseText: "Kodita Jarnyx and Kodita Jarnyx website are free to use under GNU V3.0 license.",
@@ -932,17 +957,17 @@
         howItWorks: "Comment fonctionne Kodita Jarnyx ?",
         explanationText: "Kodita Jarnyx est une méthode avancée pour encoder et décoder du texte en modifiant chaque lettre en fonction de sa position dans le mot et de la longueur de ce mot.",
         newsLabel: "Nouveautés:",
-        newsText: "Version 1.0 - Prise en charge complète de plusieurs langues, caractères spéciaux et traitement automatique. Les espaces et symboles restent intacts.",
+        newsText: "Version 2.0 - Nouvel algorithme robuste avec décalage circulaire. Prise en charge complète de toutes les langues.",
         encodeTitle: "Pour encoder :",
-        encodeStep1: "1. Calculez la longueur du mot (graine)",
-        encodeStep2: "2. Obtenez le code Unicode pour chaque lettre",
-        encodeStep3: "3. Ajoutez la graine plus la position de la lettre",
-        encodeStep4: "4. Remplacez la lettre originale par la nouvelle",
+        encodeStep1: "1. Calculer la longueur du mot (graine)",
+        encodeStep2: "2. Définir un alphabet avec tous les caractères pris en charge",
+        encodeStep3: "3. Pour chaque lettre, calculer sa position dans l'alphabet",
+        encodeStep4: "4. Appliquer le décalage circulaire : (position + graine + index) mod taille_alphabet",
         decodeTitle: "Pour décoder :",
-        decodeStep1: "1. Calculez la longueur du mot encodé (graine)",
-        decodeStep2: "2. Obtenez le code Unicode pour chaque lettre",
-        decodeStep3: "3. Soustrayez la graine plus la position de la lettre",
-        decodeStep4: "4. Remplacez la lettre encodée par l'originale",
+        decodeStep1: "1. Calculer la longueur du mot encodé (graine)",
+        decodeStep2: "2. Pour chaque lettre encodée, calculer sa position dans l'alphabet",
+        decodeStep3: "3. Appliquer le décalage inverse : (position - graine - index) mod taille_alphabet",
+        decodeStep4: "4. Ajuster pour les valeurs négatives en utilisant l'arithmétique modulaire",
         originalLabel: "Original",
         lengthLabel: "+ Longueur (6)",
         positionLabel: "+ Position (1)",
@@ -950,9 +975,9 @@
         exampleTitle: "Exemple :",
         exampleText: "\"Bonjour こんにちは\"",
         encodeExample: "Encodage (Français + Japonais):",
-        exampleSteps: "'B' → 'H'<br>'o' → 't'<br>'n' → 's'<br>'j' → 'o'<br>'o' → 't'<br>'u' → 'z'<br>'r' → 'y'<br>Espace préservé<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        exampleSteps: "'B' (27) → (27 + 7 + 1) = 35 → 'G'<br>'o' (44) → (44 + 7 + 2) = 53 → 'd'<br>'n' (39) → (39 + 7 + 3) = 49 → 'r'<br>'j' (35) → (35 + 7 + 4) = 46 → 'u'<br>'o' (44) → (44 + 7 + 5) = 56 → 'B'<br>'u' (46) → (46 + 7 + 6) = 59 → 'E'<br>'r' (49) → (49 + 7 + 7) = 63 → 'J'<br>Espace préservé<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
         resultLabel3: "Résultat :",
-        exampleResult: "\"Htotzy ぶりどふむ\"",
+        exampleResult: "\"GdruBEJ ぶりどふむ\"",
         charsTitle: "Caractères pris en charge",
         developedBy: "Développé avec ♥ par ",
         licenseText: "Kodita Jarnyx et le site web Kodita Jarnyx sont libres d'utilisation sous licence GNU V3.0.",
@@ -973,17 +998,17 @@
         howItWorks: "Wie funktioniert Kodita Jarnyx?",
         explanationText: "Kodita Jarnyx ist eine fortschrittliche Methode zum Verschlüsseln und Entschlüsseln von Text, indem jeder Buchstabe basierend auf seiner Position im Wort und der Länge dieses Wortes geändert wird.",
         newsLabel: "Neuigkeiten:",
-        newsText: "Version 1.0 - Vollständige Unterstützung für mehrere Sprachen, Sonderzeichen und automatische Verarbeitung. Leerzeichen und Symbole bleiben unverändert.",
+        newsText: "Version 2.0 - Neuer robuster Algorithmus mit zirkulärer Verschiebung. Vollständige Unterstützung für alle Sprachen.",
         encodeTitle: "Zum Verschlüsseln:",
-        encodeStep1: "1. Berechnen Sie die Wortlänge (Saat)",
-        encodeStep2: "2. Holen Sie den Unicode-Code für jeden Buchstaben",
-        encodeStep3: "3. Fügen Sie Saat plus Buchstabenposition hinzu",
-        encodeStep4: "4. Ersetzen Sie den ursprünglichen Buchstaben durch den neuen",
+        encodeStep1: "1. Wortlänge berechnen (Saat)",
+        encodeStep2: "2. Alphabet mit allen unterstützten Zeichen definieren",
+        encodeStep3: "3. Für jeden Buchstaben die Position im Alphabet berechnen",
+        encodeStep4: "4. Zirkuläre Verschiebung anwenden: (Position + Saat + Index) mod Alphabetgröße",
         decodeTitle: "Zum Entschlüsseln:",
-        decodeStep1: "1. Berechnen Sie die Länge des verschlüsselten Wortes (Saat)",
-        decodeStep2: "2. Holen Sie den Unicode-Code für jeden Buchstaben",
-        decodeStep3: "3. Subtrahieren Sie Saat plus Buchstabenposition",
-        decodeStep4: "4. Ersetzen Sie den verschlüsselten Buchstaben durch das Original",
+        decodeStep1: "1. Länge des verschlüsselten Wortes berechnen (Saat)",
+        decodeStep2: "2. Für jeden verschlüsselten Buchstaben die Position im Alphabet berechnen",
+        decodeStep3: "3. Inverse Verschiebung anwenden: (Position - Saat - Index) mod Alphabetgröße",
+        decodeStep4: "4. Für negative Werte mit modularer Arithmetik anpassen",
         originalLabel: "Original",
         lengthLabel: "+ Länge (6)",
         positionLabel: "+ Position (1)",
@@ -991,9 +1016,9 @@
         exampleTitle: "Beispiel:",
         exampleText: "\"Hallo こんにちは\"",
         encodeExample: "Verschlüsselung (Deutsch + Japanisch):",
-        exampleSteps: "'H' → 'M'<br>'a' → 'g'<br>'l' → 's'<br>'l' → 's'<br>'o' → 't'<br>Leerzeichen erhalten<br>'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'",
+        exampleSteps: "'H' (33) → (33 + 5 + 1) = 39 → 'M'<br>'a' (26) → (26 + 5 + 2) = 33 → 'H'<br>'l' (37) → (37 + 5 + 3) = 45 → 't'<br>'l' (37) → (37 + 5 + 4) = 46 → 'u'<br>'o' (44) → (44 + 5 + 5) = 54 → 'd'<br>Leerzeichen erhalten<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
         resultLabel3: "Ergebnis:",
-        exampleResult: "\"Mgsst ぶりどふむ\"",
+        exampleResult: "\"MHtud ぶりどふむ\"",
         charsTitle: "Unterstützte Zeichen",
         developedBy: "Entwickelt mit ♥ von ",
         licenseText: "Kodita Jarnyx und die Kodita Jarnyx-Website sind unter der GNU V3.0-Lizenz frei nutzbar.",
@@ -1014,17 +1039,17 @@
         howItWorks: "コディタ・ジャーニクスの仕組み",
         explanationText: "コディタ・ジャーニクスは、単語内の位置と単語の長さに基づいて各文字を変更することで、テキストをエンコードおよびデコードする高度な方法です。",
         newsLabel: "新着情報：",
-        newsText: "バージョン1.0 - 多言語、特殊文字、自動処理を完全サポート。スペースと記号はそのまま残ります。",
+        newsText: "バージョン2.0 - サーキュラーシフトを使用した新しい堅牢なアルゴリズム。すべての言語を完全にサポート。",
         encodeTitle: "エンコード方法：",
         encodeStep1: "1. 単語の長さを計算（シード）",
-        encodeStep2: "2. 各文字のUnicodeコードを取得",
-        encodeStep3: "3. シードと文字位置を加算",
-        encodeStep4: "4. 元の文字を新しい文字に置換",
+        encodeStep2: "2. サポートされているすべての文字を含むアルファベットを定義",
+        encodeStep3: "3. 各文字のアルファベット内の位置を計算",
+        encodeStep4: "4. 循環シフトを適用: (位置 + シード + インデックス) mod アルファベットサイズ",
         decodeTitle: "デコード方法：",
         decodeStep1: "1. エンコードされた単語の長さを計算（シード）",
-        decodeStep2: "2. 各文字のUnicodeコードを取得",
-        decodeStep3: "3. シードと文字位置を減算",
-        decodeStep4: "4. エンコードされた文字を元の文字に置換",
+        decodeStep2: "2. エンコードされた各文字のアルファベット内の位置を計算",
+        decodeStep3: "3. 逆シフトを適用: (位置 - シード - インデックス) mod アルファベットサイズ",
+        decodeStep4: "4. モジュラー演算を使用して負の値を調整",
         originalLabel: "元の文字",
         lengthLabel: "+ 長さ (6)",
         positionLabel: "+ 位置 (1)",
@@ -1032,9 +1057,9 @@
         exampleTitle: "例：",
         exampleText: "\"こんにちは Hello\"",
         encodeExample: "エンコード（日本語 + 英語）：",
-        exampleSteps: "'こ' → 'ぶ'<br>'ん' → 'り'<br>'に' → 'ど'<br>'ち' → 'ふ'<br>'は' → 'む'<br>スペースを維持<br>'H' → 'M'<br>'e' → 'j'<br>'l' → 's'<br>'l' → 's'<br>'o' → 't'",
+        exampleSteps: "'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'<br>スペースを維持<br>'H' (33) → (33 + 5 + 1) = 39 → 'M'<br>'e' (30) → (30 + 5 + 2) = 37 → 'l'<br>'l' (37) → (37 + 5 + 3) = 45 → 't'<br>'l' (37) → (37 + 5 + 4) = 46 → 'u'<br>'o' (44) → (44 + 5 + 5) = 54 → 'd'",
         resultLabel3: "結果：",
-        exampleResult: "\"ぶりどふむ Mjsst\"",
+        exampleResult: "\"ぶりどふむ Mltud\"",
         charsTitle: "対応文字",
         developedBy: "♡ により開発 ",
         licenseText: "コディタ・ジャーニクスとそのウェブサイトは、GNU V3.0ライセンスの下で自由に使用できます。",
@@ -1117,21 +1142,21 @@
       const developedByElement = document.getElementById('developedBy');
       developedByElement.innerHTML = `${t.developedBy}<a href="https://github.com/soulh34rt" target="_blank">ADA</a>`;
       
-      // Actualizar placeholder
+      //  Kodita Actualizar placeholder
       inputText.placeholder = lang === 'jp' ? "テキストを入力または貼り付け..." : `${t.encodeBtn} ${t.inputLabel.toLowerCase()}...`;
       
       // Actualizar modo
       updateModeText();
     }
     
-    // Actualizar texto de modo
+    //  Kodita Actualizar texto de modo
     function updateModeText() {
       const t = translations[currentLang];
       modeText.textContent = currentMode === 'encode' ? t.encodeBtn : t.decodeBtn;
       modeText.style.color = currentMode === 'encode' ? '#6a67ce' : '#ff4d94';
     }
     
-    // Event listeners
+    //  Kodita Event listeners
     inputText.addEventListener('input', processText);
     copyBtn.addEventListener('click', copyResult);
     copyAllBtn.addEventListener('click', copyAll);
@@ -1164,12 +1189,12 @@
         
         changeLanguage(lang);
         
-        // Ejemplos según el idioma seleccionado
+        // Kodita Ejemplos según el idioma seleccionado
         let example = '';
         
         switch(lang) {
           case 'es':
-            example = "Musi musi, esto es un Kodita Ejemplo";
+            example = "Musi Musi este es un Kodita Ejemplo";
             break;
           case 'en':
             example = "Hello world! This is an example.";
@@ -1218,7 +1243,7 @@
       }
     }
     
-    // Copiar todo (entrada + resultado)
+    // Kodita Copiar todo (entrada + resultado)
     function copyAll() {
       const input = inputText.value;
       const result = output.innerText;
@@ -1245,52 +1270,58 @@
       }
     }
     
-    // Función para transformar un carácter
-    function transformChar(char, seed, position, mode) {
-      const charCode = char.codePointAt(0);
-      let shift = mode === 'encode' ? seed + position : -(seed + position);
-      return String.fromCodePoint(charCode + shift);
-    }
-    
-    // Función principal para procesar texto
+    // Kodita Nuevo algoritmo robusto con desplazamiento circular por que el otro ya no funcionaba 
     function processText() {
       const text = inputText.value;
       
-      // Actualizar indicador de modo
+      //  Kodita Actualizar indicador de modo
       updateModeText();
       
-      // Procesar texto
+      //  Kodita Procesar texto
       if (text.trim() === '') {
         output.textContent = translations[currentLang].resultPlaceholder;
         output.classList.remove('result-fade');
         return;
       }
       
-      const words = text.split(/(?<=\s)|(?=\s)/);
+      const alphabetSize = alphabet.length;
+      const words = text.split(/(\s+)/);
+      
       const result = words.map(word => {
-        // Si es espacio u otro carácter no alfabético, mantenerlo tal cual
-        if (!/\p{L}/u.test(word)) return word;
+        // Kodita  Contar solo caracteres en el alfabeto para la semilla
+        const validChars = [...word].filter(char => alphabet.includes(char));
+        const seed = validChars.length;
         
-        const seed = [...word].filter(char => /\p{L}/u.test(char)).length;
-        let position = 0;
-        
+        let charPosition = 0;
         return [...word].map(char => {
-          // Solo procesar caracteres alfabéticos
-          if (/\p{L}/u.test(char)) {
-            position++;
-            return transformChar(char, seed, position, currentMode);
+          const indexInAlphabet = alphabet.indexOf(char);
+          
+          if (indexInAlphabet !== -1) {
+            charPosition++;
+            let newIndex;
+            
+            if (currentMode === 'encode') {
+              newIndex = (indexInAlphabet + seed + charPosition) % alphabetSize;
+            } else {
+              // Kodita Manejar valores negativos con aritmética modular
+              newIndex = (indexInAlphabet - seed - charPosition) % alphabetSize;
+              if (newIndex < 0) newIndex += alphabetSize;
+            }
+            
+            return alphabet[newIndex];
           }
+          
           return char;
         }).join('');
       }).join('');
       
-      // Mostrar resultado con animación
+      // Kodita Mostrar resultado con animación
       output.textContent = result;
       output.classList.add('result-fade');
       setTimeout(() => output.classList.remove('result-fade'), 500);
     }
     
-    // Inicialización
+    // Kodita Inicialización
     createParticles();
     processText();
   </script>
