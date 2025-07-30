@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kodita Jarnyx</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --fg: #ffffff;
+      --primary: #6a67ce;
+      --secondary: #ff4d94;
+      --accent: #1a1a24;
+      --border: #2a2a3a;
+      --success: #4ade80;
+      --text-font: 'Inter', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(106, 103, 206, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(255, 77, 148, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(26, 26, 36, 0.8) 0%, transparent 100%);
+      color: var(--fg);
+      font-family: var(--text-font);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      animation: fadeIn 1s ease-out;
+      z-index: 10;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 10px;
+      padding: 0 10px;
+      animation: slideIn 0.8s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(106, 103, 206, 0.3);
+      animation: glow 2s infinite alternate;
+      letter-spacing: -0.5px;
+    }
+    
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px rgba(106, 103, 206, 0.4); }
+      100% { text-shadow: 0 0 20px rgba(255, 77, 148, 0.6), 0 0 30px rgba(255, 77, 148, 0.4); }
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.85;
+      margin-bottom: 15px;
+      max-width: 600px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+    
+    .card {
+      background: rgba(26, 26, 36, 0.8);
+      border-radius: 20px;
+      padding: 35px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      transition: var(--transition);
+      animation: cardAppear 0.8s ease-out;
+    }
+    
+    @keyframes cardAppear {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .input-group {
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 160px;
+      background: rgba(20, 20, 30, 0.6);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 20px;
+      font-size: 1.15rem;
+      resize: vertical;
+      transition: var(--transition);
+      font-family: inherit;
+      line-height: 1.7;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(106, 103, 206, 0.3);
+    }
+    
+    .action-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .action-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 16px;
+      background: rgba(30, 30, 45, 0.7);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .action-btn:hover {
+      background: rgba(40, 40, 55, 0.9);
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .action-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(106, 103, 206, 0.5);
+    }
+    
+    .process-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 5px 20px rgba(106, 103, 206, 0.4);
+    }
+    
+    .process-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transition: all 0.8s;
+    }
+    
+    .process-btn:hover::after {
+      left: 100%;
+    }
+    
+    .process-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(106, 103, 206, 0.6);
+    }
+    
+    .result-container {
+      margin-top: 35px;
+    }
+    
+    .result {
+      background: rgba(20, 20, 30, 0.6);
+      color: var(--fg);
+      border-radius: 15px;
+      padding: 25px;
+      min-height: 160px;
+      border: 1px solid var(--border);
+      overflow: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 1.15rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      position: relative;
+      transition: var(--transition);
+      line-height: 1.7;
+    }
+    
+    .result.success {
+      border-color: var(--success);
+      box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+    }
+    
+    .mode-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: rgba(42, 42, 78, 0.4);
+      border-radius: 25px;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      margin-top: 15px;
+      animation: pulse 2s infinite;
+      backdrop-filter: blur(5px);
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(106, 103, 206, 0.2); }
+      70% { box-shadow: 0 0 0 12px rgba(106, 103, 206, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(106, 103, 206, 0); }
+    }
+    
+    .mode-indicator .mode {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    
+    .copy-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(40, 40, 55, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--fg);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0.7;
+    }
+    
+    .copy-btn:hover {
+      opacity: 1;
+      background: rgba(50, 50, 65, 0.9);
+      transform: translateY(-2px);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 30px 0 10px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+    }
+    
+    footer a {
+      color: var(--secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+      text-shadow: 0 0 8px rgba(255, 77, 148, 0.4);
+    }
+    
+    .explanation {
+      background: rgba(30, 30, 45, 0.8);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      animation: cardAppear 1s ease-out;
+    }
+    
+    .explanation h2 {
+      color: var(--primary);
+      font-size: 1.9rem;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .explanation p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    
+    .algorithm-steps {
+      margin: 30px 0;
+      padding-left: 25px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .step {
+      margin-bottom: 25px;
+      position: relative;
+      padding-left: 35px;
+    }
+    
+    .step h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--secondary);
+    }
+    
+    .step p {
+      margin-bottom: 8px;
+    }
+    
+    .step::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 10px rgba(255, 77, 148, 0.5);
+    }
+    
+    .example-box {
+      background: rgba(42, 42, 78, 0.4);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 30px 0;
+      border: 1px solid var(--border);
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .example-box p {
+      margin-bottom: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.05rem;
+    }
+    
+    .example-title {
+      color: var(--secondary);
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.25rem;
+    }
+    
+    .char-process {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(20, 20, 30, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    
+    .char-box {
+      padding: 15px;
+      background: rgba(30, 30, 45, 0.7);
+      border-radius: 10px;
+      text-align: center;
+      min-width: 80px;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    
+    .char-box.active {
+      background: rgba(106, 103, 206, 0.3);
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(106, 103, 206, 0.3);
+    }
+    
+    .char-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 5px 0;
+      color: var(--secondary);
+    }
+    
+    .char-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .arrow {
+      font-size: 1.5rem;
+      color: var(--primary);
+      opacity: 0.7;
+    }
+    
+    .alphabet-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+      padding: 15px;
+      background: rgba(20, 20, 30, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    
+    .alphabet-column {
+      flex: 1;
+      padding: 10px;
+    }
+    
+    .alphabet-title {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    
+    .alphabet-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .alphabet-char {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: rgba(40, 40, 55, 0.5);
+      font-size: 0.9rem;
+    }
+    
+    .alphabet-char.accent {
+      background: rgba(106, 103, 206, 0.3);
+      color: var(--secondary);
+      font-weight: bold;
+    }
+    
+    .note {
+      padding: 15px;
+      background: rgba(74, 222, 128, 0.1);
+      border-radius: 12px;
+      border: 1px solid var(--success);
+      margin: 20px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .note i {
+      color: var(--success);
+      font-size: 1.2rem;
+      margin-top: 3px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        gap: 20px;
+      }
+      
+      h1 {
+        font-size: 2.4rem;
+      }
+      
+      .subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .card {
+        padding: 25px;
+      }
+      
+      .action-group {
+        flex-direction: column;
+      }
+      
+      .action-btn {
+        width: 100%;
+      }
+      
+      .explanation {
+        padding: 25px;
+      }
+      
+      .char-process {
+        flex-direction: column;
+        gap: 25px;
+      }
+      
+      .alphabet-info {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .card, .explanation {
+        padding: 20px;
+      }
+      
+      .explanation h2 {
+        font-size: 1.6rem;
+      }
+      
+      .step {
+        padding-left: 25px;
+      }
+    }
+    
+    /* Partículas de fondo */
+    .particle {
+      position: fixed;
+      background: rgba(106, 103, 206, 0.15);
+      border-radius: 50%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0.8; }
+      50% { transform: translate(50px, 50px) rotate(180deg); opacity: 0.4; }
+      100% { transform: translate(0, 0) rotate(360deg); opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Kodita Jarnyx</h1>
+      <p class="subtitle">Codificador y decodificador avanzado con algoritmo basado en posición y longitud</p>
+      <div class="mode-indicator">
+        <i class="fas fa-circle"></i><span class="mode" id="modeText">Codificación</span>
+      </div>
+    </header>
+    
+    <div class="card">
+      <div class="input-group">
+        <label for="inputText"><i class="fas fa-keyboard"></i> Texto de entrada</label>
+        <textarea id="inputText" placeholder="Escribe o pega tu texto aquí...">Kodita Jarnyx</textarea>
+      </div>
+      
+      <div class="action-group">
+        <button class="action-btn active" data-mode="auto">
+          <i class="fas fa-sync-alt"></i> Automático
+        </button>
+        <button class="action-btn" data-mode="encode">
+          <i class="fas fa-lock"></i> Codificar
+        </button>
+        <button class="action-btn" data-mode="decode">
+          <i class="fas fa-lock-open"></i> Decodificar
+        </button>
+      </div>
+      
+      <button class="process-btn" id="processBtn">
+        <i class="fas fa-bolt"></i> BOTON INUTIL
+      </button>
+      
+      <div class="result-container">
+        <label for="output"><i class="fas fa-code"></i> Resultado</label>
+        <div class="result" id="output">El resultado aparecerá aquí...</div>
+        <button class="copy-btn" id="copyBtn"><i class="fas fa-copy"></i> Copiar</button>
+      </div>
+    </div>
+    
+    <div class="explanation">
+      <h2><i class="fas fa-lightbulb"></i> ¿Como funciona Kodita Jarnyx?</h2>
+      
+      <p>Kodita Jarnyx es un método avanzado para codificar y decodificar textos cambiando cada letra según su posición en la palabra y la longitud de esa palabra, basado en la numeracíon de letras ASCII.</p>
+      
+      <div class="note">
+        <i class="fas fa-info-circle"></i>
+        <div>
+          <strong>Novedades:</strong> Kodita 0.2 - Ahora soporta caracteres acentuados (Á, É, Í, Ó, Ú, Ñ) en mayúsculas y minúsculas, 
+          así como todos los caracteres del alfabeto español.
+        </div>
+      </div>
+      
+      <div class="algorithm-steps">
+        <div class="step">
+          <h3>Para codificar:</h3>
+          <p>1. Se calcula la longitud de la palabra (semilla)</p>
+          <p>2. Para cada letra, se obtiene su posición en el alfabeto extendido</p>
+          <p>3. Se suma la semilla más la posición de la letra (1 para la primera, 2 para la segunda y asi sucesivamente.)</p>
+          <p>4. Si el resultado supera el tamaño del alfabeto, se ajusta usando módulo</p>
+          <p>5. Se reemplaza la letra original por la nueva letra obtenida</p>
+        </div>
+        
+        <div class="step">
+          <h3>Para decodificar:</h3>
+          <p>1. Se calcula la longitud de la palabra codificada (semilla)</p>
+          <p>2. Para cada letra, se obtiene su posición en el alfabeto extendido</p>
+          <p>3. Se resta la semilla más la posición de la letra</p>
+          <p>4. Si el resultado es negativo, se ajusta sumando el tamaño del alfabeto</p>
+          <p>5. Se reemplaza la letra codificada por la letra original</p>
+        </div>
+      </div>
+      
+      <div class="char-process">
+        <div class="char-box active">
+          <div class="char-label">Original</div>
+          <div class="char-value">h</div>
+          <div class="char-label">(104)</div>
+        </div>
+        
+        <div class="arrow">→</div>
+        
+        <div class="char-box">
+          <div class="char-label">+ Longitud (4)</div>
+          <div class="char-value">+</div>
+        </div>
+        
+        <div class="arrow">→</div>
+        
+        <div class="char-box">
+          <div class="char-label">+ Posición (1)</div>
+          <div class="char-value">+</div>
+        </div>
+        
+        <div class="arrow">→</div>
+        
+        <div class="char-box active">
+          <div class="char-label">Resultado</div>
+          <div class="char-value">m</div>
+          <div class="char-label">(109)</div>
+        </div>
+      </div>
+      
+      <div class="example-box">
+        <div class="example-title">
+          <i class="fas fa-star"></i> Ejemplo: "hola"
+        </div>
+        <p><strong>Longitud (semilla):</strong> 4</p>
+        <p><strong>Codificación:</strong></p>
+        <p>'h' → 104 + 4 + 1 = 109 → 'm'</p>
+        <p>'o' → 111 + 4 + 2 = 117 → 'u'</p>
+        <p>'l' → 108 + 4 + 3 = 115 → 's'</p>
+        <p>'a' → 97 + 4 + 4 = 105 → 'i'</p>
+        <p><strong>Resultado:</strong> "musi"</p>
+      </div>
+      
+      <div class="example-box">
+        <div class="example-title">
+          <i class="fas fa-star"></i> Ejemplo con acentos: "canción"
+        </div>
+        <p><strong>Longitud (semilla):</strong> 7</p>
+        <p><strong>Codificación:</strong></p>
+        <p>'c' → 99 + 7 + 1 = 107 → 'k'</p>
+        <p>'a' → 97 + 7 + 2 = 106 → 'j'</p>
+        <p>'n' → 110 + 7 + 3 = 120 → 'x'</p>
+        <p>'c' → 99 + 7 + 4 = 110 → 'n'</p>
+        <p>'i' → 105 + 7 + 5 = 117 → 'u'</p>
+        <p>'ó' → 243 + 7 + 6 = 256 → Ajustado a 256 % 255 = 1 → 'á'</p>
+        <p>'n' → 110 + 7 + 7 = 124 → '|' (carácter especial)</p>
+        <p><strong>Resultado:</strong> "kjxnuá|"</p>
+      </div>
+      
+      <div class="alphabet-info">
+        <div class="alphabet-column">
+          <div class="alphabet-title">Alfabeto Minúsculas</div>
+          <div class="alphabet-list">
+            <div class="alphabet-char">a</div>
+            <div class="alphabet-char">b</div>
+            <div class="alphabet-char">c</div>
+            <div class="alphabet-char">d</div>
+            <div class="alphabet-char">e</div>
+            <div class="alphabet-char">f</div>
+            <div class="alphabet-char">g</div>
+            <div class="alphabet-char">h</div>
+            <div class="alphabet-char">i</div>
+            <div class="alphabet-char">j</div>
+            <div class="alphabet-char">k</div>
+            <div class="alphabet-char">l</div>
+            <div class="alphabet-char">m</div>
+            <div class="alphabet-char">n</div>
+            <div class="alphabet-char">o</div>
+            <div class="alphabet-char">p</div>
+            <div class="alphabet-char">q</div>
+            <div class="alphabet-char">r</div>
+            <div class="alphabet-char">s</div>
+            <div class="alphabet-char">t</div>
+            <div class="alphabet-char">u</div>
+            <div class="alphabet-char">v</div>
+            <div class="alphabet-char">w</div>
+            <div class="alphabet-char">x</div>
+            <div class="alphabet-char">y</div>
+            <div class="alphabet-char">z</div>
+            <div class="alphabet-char accent">á</div>
+            <div class="alphabet-char accent">é</div>
+            <div class="alphabet-char accent">í</div>
+            <div class="alphabet-char accent">ó</div>
+            <div class="alphabet-char accent">ú</div>
+            <div class="alphabet-char accent">ñ</div>
+          </div>
+        </div>
+        
+        <div class="alphabet-column">
+          <div class="alphabet-title">Alfabeto Mayúsculas</div>
+          <div class="alphabet-list">
+            <div class="alphabet-char">A</div>
+            <div class="alphabet-char">B</div>
+            <div class="alphabet-char">C</div>
+            <div class="alphabet-char">D</div>
+            <div class="alphabet-char">E</div>
+            <div class="alphabet-char">F</div>
+            <div class="alphabet-char">G</div>
+            <div class="alphabet-char">H</div>
+            <div class="alphabet-char">I</div>
+            <div class="alphabet-char">J</div>
+            <div class="alphabet-char">K</div>
+            <div class="alphabet-char">L</div>
+            <div class="alphabet-char">M</div>
+            <div class="alphabet-char">N</div>
+            <div class="alphabet-char">O</div>
+            <div class="alphabet-char">P</div>
+            <div class="alphabet-char">Q</div>
+            <div class="alphabet-char">R</div>
+            <div class="alphabet-char">S</div>
+            <div class="alphabet-char">T</div>
+            <div class="alphabet-char">U</div>
+            <div class="alphabet-char">V</div>
+            <div class="alphabet-char">W</div>
+            <div class="alphabet-char">X</div>
+            <div class="alphabet-char">Y</div>
+            <div class="alphabet-char">Z</div>
+            <div class="alphabet-char accent">Á</div>
+            <div class="alphabet-char accent">É</div>
+            <div class="alphabet-char accent">Í</div>
+            <div class="alphabet-char accent">Ó</div>
+            <div class="alphabet-char accent">Ú</div>
+            <div class="alphabet-char accent">Ñ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <p>Desarrollado con <i class="fas fa-heart" style="color: var(--secondary);"></i> por <a href="https://github.com/soulh34rt" target="_blank">ADA</a></p>
+      <p> Kodita Jarnyx y el sitio web de Kodita Jarnyx son sistemas de uso libre bajo la licencia GNU V3.0. </p>
+      <P>Diseñado y programado por José B</P>
+    </footer>
+  </div>
+
+  <script>
+    // Elementos DOM
+    const inputText = document.getElementById('inputText');
+    const output = document.getElementById('output');
+    const modeText = document.getElementById('modeText');
+    const processBtn = document.getElementById('processBtn');
+    const actionBtns = document.querySelectorAll('.action-btn');
+    const copyBtn = document.getElementById('copyBtn');
+    
+    // Alfabetos ext
+    const lowerAlphabet = 'abcdefghijklmnopqrstuvwxyzáéíóúñ';
+    const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑ';
+    
+    // Modo Act
+    let currentMode = 'auto';
+    
+    // Particulas mal optimizadas nyehehe
+    function createParticles() {
+      const colors = ['#6a67ce', '#ff4d94', '#4ade80'];
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Tamaño y posicion adaptadas 
+        const size = Math.random() * 20 + 5;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.opacity = Math.random() * 0.3 + 0.1;
+        
+        // Animaciones
+        const duration = Math.random() * 30 + 20;
+        particle.style.animation = `float ${duration}s infinite ease-in-out`;
+        
+        document.body.appendChild(particle);
+      }
+    }
+    
+    // Event listeners
+    inputText.addEventListener('input', processText);
+    processBtn.addEventListener('click', processText);
+    copyBtn.addEventListener('click', copyResult);
+    
+    actionBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Actualizar modo
+        currentMode = btn.dataset.mode;
+        
+        // Actualizar los botones activos
+        actionBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Animación de selección
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          btn.style.transform = '';
+        }, 200);
+        
+        // Reprocesar texto
+        processText();
+      });
+    });
+    
+    // Copiar resultado al portapapeles
+    function copyResult() {
+      const text = output.innerText;
+      if (text && text !== 'El resultado aparecerá aquí...') {
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            copyBtn.style.opacity = '1';
+            output.classList.add('success');
+            
+            setTimeout(() => {
+              copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+              copyBtn.style.opacity = '0.7';
+              output.classList.remove('success');
+            }, 2000);
+          })
+          .catch(err => {
+            console.error('Error al copiar: ', err);
+          });
+      }
+    }
+    
+    // Función principal para procesar texto
+    function processText() {
+      const text = inputText.value;
+      let mode = currentMode;
+      
+      // Determinar modo automático
+      if (mode === 'auto') {
+        mode = /[A-ZÁÉÍÓÚÑ]/.test(text) ? 'decode' : 'encode';
+      }
+      
+      // Actualizar indicador de modo
+      modeText.textContent = mode === 'encode' ? 'Codificación' : 'Decodificación';
+      modeText.style.color = mode === 'encode' ? '#6a67ce' : '#ff4d94';
+      
+      // Procesar texto
+      if (text.trim() === '') {
+        output.textContent = 'El resultado aparecerá aquí...';
+        return;
+      }
+      
+      const words = text.split(/(\s+)/);
+      const result = words.map(w => {
+        if (/^\s+$/.test(w)) return w; // Preservar espacios
+        const seed = w.length;
+        
+        return [...w].map((c, i) => {
+          // Determinar si el carácter está en minúsculas o mayúsculas
+          let charSet, base;
+          if (lowerAlphabet.includes(c)) {
+            charSet = lowerAlphabet;
+          } else if (upperAlphabet.includes(c)) {
+            charSet = upperAlphabet;
+          } else {
+            return c; // Devolver caracteres no alfabéticos sin cambios
+          }
+          
+          // Obtener índice actual en el conjunto de caracteres
+          const currentIndex = charSet.indexOf(c);
+          const shift = seed + i + 1;
+          
+          let newIndex;
+          if (mode === 'encode') {
+            newIndex = (currentIndex + shift) % charSet.length;
+          } else {
+            newIndex = (currentIndex - shift) % charSet.length;
+            if (newIndex < 0) {
+              newIndex += charSet.length;
+            }
+          }
+          
+          return charSet[newIndex];
+        }).join('');
+      }).join('');
+      
+      // Mostrar resultado con animación
+      output.textContent = '';
+      let index = 0;
+      const speed = 20; // ms por carácter
+      
+      function typeWriter() {
+        if (index < result.length) {
+          output.textContent += result.charAt(index);
+          index++;
+          setTimeout(typeWriter, speed);
+        } else {
+          // Efecto de finalización
+          output.style.boxShadow = '0 0 15px rgba(106, 103, 206, 0.3)';
+          setTimeout(() => {
+            output.style.boxShadow = '';
+          }, 1000);
+        }
+      }
+      
+      typeWriter();
+    }
+    
+    // Inicialización
+    createParticles();
+    processText();
+    
+    // Demo de texto al cargar
+    setTimeout(() => {
+      inputText.value = "Musi Musi";
+      processText();
+    }, 500);
+  </script>
+</body>
+</html>
