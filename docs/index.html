@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
   <meta charset="UTF-8">
   <link rel="icon" href="https://raw.githubusercontent.com/soulh34rt/Kodita_Jarnyx/main/Kodita%20the%20rat.png" type="image/png" />
   <meta property="og:description" content="Codifica y decodifica Kodita Jarnyx usando ASCII y el lenguaje" />
@@ -598,7 +598,7 @@
   <div class="container">
     <header>
       <h1>Kodita Jarnyx</h1>
-      <p class="subtitle">Codificador y decodificador avanzado con algoritmo basado en ASCII, lenguaje, posición y longitud.</p>
+      <p class="subtitle">Codificador y decodificador que usa algoritmos basados en posición y longitud</p>
       <div class="mode-indicator">
         <i class="fas fa-circle"></i><span class="mode" id="modeText">Codificación</span>
       </div>
@@ -623,7 +623,7 @@
       </div>
       
       <button class="process-btn" id="processBtn">
-        <i class="fas fa-bolt"></i> BOTON INUTIL
+        <i class="fas fa-bolt"></i> Transformar Texto
       </button>
       
       <div class="result-container">
@@ -636,13 +636,13 @@
     <div class="explanation">
       <h2><i class="fas fa-lightbulb"></i> ¿Como funciona Kodita Jarnyx?</h2>
       
-      <p>Kodita Jarnyx es un método avanzado para codificar y decodificar textos cambiando cada letra según su posición en la palabra y la longitud de esa palabra, basado en la numeracíon de letras ASCII.</p>
+      <p>Kodita Jarnyx es un método avanzado para codificar y decodificar textos cambiando cada letra según su posición en la palabra y la longitud de esa palabra.</p>
       
       <div class="note">
         <i class="fas fa-info-circle"></i>
         <div>
-          <strong>Novedades:</strong> Kodita 0.2 - Ahora soporta caracteres acentuados (Á, É, Í, Ó, Ú, Ñ) en mayúsculas y minúsculas, 
-          así como todos los caracteres del alfabeto español.
+          <strong>Novedades:</strong> Kodita 0.2 - Soporte completo para caracteres acentuados (Á, É, Í, Ó, Ú, Ñ) 
+          en mayúsculas y minúsculas.
         </div>
       </div>
       
@@ -650,18 +650,18 @@
         <div class="step">
           <h3>Para codificar:</h3>
           <p>1. Se calcula la longitud de la palabra (semilla)</p>
-          <p>2. Para cada letra, se obtiene su posición en el alfabeto extendido</p>
-          <p>3. Se suma la semilla más la posición de la letra (1 para la primera, 2 para la segunda y asi sucesivamente.)</p>
-          <p>4. Si el resultado supera el tamaño del alfabeto, se ajusta usando módulo</p>
+          <p>2. Para cada letra, se obtiene su código ASCII</p>
+          <p>3. Se suma la semilla más la posición de la letra (1 para la primera, 2 para la segunda, etc.)</p>
+          <p>4. Si el código resultante supera el rango de letras, se ajusta usando módulo</p>
           <p>5. Se reemplaza la letra original por la nueva letra obtenida</p>
         </div>
         
         <div class="step">
           <h3>Para decodificar:</h3>
           <p>1. Se calcula la longitud de la palabra codificada (semilla)</p>
-          <p>2. Para cada letra, se obtiene su posición en el alfabeto extendido</p>
+          <p>2. Para cada letra, se obtiene su código ASCII</p>
           <p>3. Se resta la semilla más la posición de la letra</p>
-          <p>4. Si el resultado es negativo, se ajusta sumando el tamaño del alfabeto</p>
+          <p>4. Si el código resultante es menor al rango de letras, se ajusta</p>
           <p>5. Se reemplaza la letra codificada por la letra original</p>
         </div>
       </div>
@@ -702,10 +702,10 @@
         </div>
         <p><strong>Longitud (semilla):</strong> 4</p>
         <p><strong>Codificación:</strong></p>
-        <p>'h' → 104 + 4 + 1 = 109 → 'm'</p>
-        <p>'o' → 111 + 4 + 2 = 117 → 'u'</p>
-        <p>'l' → 108 + 4 + 3 = 115 → 's'</p>
-        <p>'a' → 97 + 4 + 4 = 105 → 'i'</p>
+        <p>'h' (104) → 104 + 4 + 1 = 109 → 'm'</p>
+        <p>'o' (111) → 111 + 4 + 2 = 117 → 'u'</p>
+        <p>'l' (108) → 108 + 4 + 3 = 115 → 's'</p>
+        <p>'a' (97) → 97 + 4 + 4 = 105 → 'i'</p>
         <p><strong>Resultado:</strong> "musi"</p>
       </div>
       
@@ -715,13 +715,13 @@
         </div>
         <p><strong>Longitud (semilla):</strong> 7</p>
         <p><strong>Codificación:</strong></p>
-        <p>'c' → 99 + 7 + 1 = 107 → 'k'</p>
-        <p>'a' → 97 + 7 + 2 = 106 → 'j'</p>
-        <p>'n' → 110 + 7 + 3 = 120 → 'x'</p>
-        <p>'c' → 99 + 7 + 4 = 110 → 'n'</p>
-        <p>'i' → 105 + 7 + 5 = 117 → 'u'</p>
-        <p>'ó' → 243 + 7 + 6 = 256 → Ajustado a 256 % 255 = 1 → 'á'</p>
-        <p>'n' → 110 + 7 + 7 = 124 → '|' (carácter especial)</p>
+        <p>'c' (99) → 99 + 7 + 1 = 107 → 'k'</p>
+        <p>'a' (97) → 97 + 7 + 2 = 106 → 'j'</p>
+        <p>'n' (110) → 110 + 7 + 3 = 120 → 'x'</p>
+        <p>'c' (99) → 99 + 7 + 4 = 110 → 'n'</p>
+        <p>'i' (105) → 105 + 7 + 5 = 117 → 'u'</p>
+        <p>'ó' (243) → 243 + 7 + 6 = 256 → 256 % 255 = 1 → 'á'</p>
+        <p>'n' (110) → 110 + 7 + 7 = 124 → '|'</p>
         <p><strong>Resultado:</strong> "kjxnuá|"</p>
       </div>
       
@@ -806,8 +806,8 @@
     
     <footer>
       <p>Desarrollado con <i class="fas fa-heart" style="color: var(--secondary);"></i> por <a href="https://github.com/soulh34rt" target="_blank">ADA</a></p>
-      <p> Kodita Jarnyx y el sitio web de Kodita Jarnyx son sistemas de uso libre bajo la licencia GNU V3.0. </p>
-      <P>Diseñado y programado por José B</P>
+      <p>Kodita Jarnyx y el sitio web de Kodita Jarnyx son sistemas de uso libre bajo la licencia GNU V3.0.</p>
+      <p>Diseñado y programado por José B</p>
     </footer>
   </div>
 
@@ -820,14 +820,10 @@
     const actionBtns = document.querySelectorAll('.action-btn');
     const copyBtn = document.getElementById('copyBtn');
     
-    // Alfabetos ext
-    const lowerAlphabet = 'abcdefghijklmnopqrstuvwxyzáéíóúñ';
-    const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑ';
-    
-    // Modo Act
+    // Modo actual
     let currentMode = 'auto';
     
-    // Particulas mal optimizadas nyehehe
+    // Crear partículas de fondo
     function createParticles() {
       const colors = ['#6a67ce', '#ff4d94', '#4ade80'];
       const particleCount = 50;
@@ -836,7 +832,6 @@
         const particle = document.createElement('div');
         particle.classList.add('particle');
         
-        // Tamaño y posicion adaptadas 
         const size = Math.random() * 20 + 5;
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
@@ -848,7 +843,6 @@
         particle.style.background = colors[Math.floor(Math.random() * colors.length)];
         particle.style.opacity = Math.random() * 0.3 + 0.1;
         
-        // Animaciones
         const duration = Math.random() * 30 + 20;
         particle.style.animation = `float ${duration}s infinite ease-in-out`;
         
@@ -863,20 +857,16 @@
     
     actionBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Actualizar modo
         currentMode = btn.dataset.mode;
         
-        // Actualizar los botones activos
         actionBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        // Animación de selección
         btn.style.transform = 'scale(0.95)';
         setTimeout(() => {
           btn.style.transform = '';
         }, 200);
         
-        // Reprocesar texto
         processText();
       });
     });
@@ -903,7 +893,7 @@
       }
     }
     
-    // Función principal para procesar texto
+    // Función principal para procesar texto - CORREGIDA
     function processText() {
       const text = inputText.value;
       let mode = currentMode;
@@ -926,34 +916,46 @@
       const words = text.split(/(\s+)/);
       const result = words.map(w => {
         if (/^\s+$/.test(w)) return w; // Preservar espacios
-        const seed = w.length;
         
-        return [...w].map((c, i) => {
-          // Determinar si el carácter está en minúsculas o mayúsculas
-          let charSet, base;
-          if (lowerAlphabet.includes(c)) {
-            charSet = lowerAlphabet;
-          } else if (upperAlphabet.includes(c)) {
-            charSet = upperAlphabet;
+        const seed = w.length;
+        return [...w].map((char, index) => {
+          const charCode = char.charCodeAt(0);
+          const position = index + 1;
+          const shift = seed + position;
+          
+          // Solo procesar caracteres alfabéticos
+          if (!/[a-zA-ZÁÉÍÓÚÑáéíóúñ]/.test(char)) return char;
+          
+          // Determinar límites del alfabeto
+          let minCode, maxCode;
+          if (char >= 'a' && char <= 'z') {
+            minCode = 'a'.charCodeAt(0);
+            maxCode = 'z'.charCodeAt(0);
+          } else if (char >= 'A' && char <= 'Z') {
+            minCode = 'A'.charCodeAt(0);
+            maxCode = 'Z'.charCodeAt(0);
           } else {
-            return c; // Devolver caracteres no alfabéticos sin cambios
+            // Caracteres extendidos (acentuados)
+            minCode = 192;
+            maxCode = 255;
           }
           
-          // Obtener índice actual en el conjunto de caracteres
-          const currentIndex = charSet.indexOf(c);
-          const shift = seed + i + 1;
-          
-          let newIndex;
+          let newCode;
           if (mode === 'encode') {
-            newIndex = (currentIndex + shift) % charSet.length;
+            newCode = charCode + shift;
+            // Ajustar si supera el rango
+            while (newCode > maxCode) {
+              newCode = minCode + (newCode - maxCode - 1);
+            }
           } else {
-            newIndex = (currentIndex - shift) % charSet.length;
-            if (newIndex < 0) {
-              newIndex += charSet.length;
+            newCode = charCode - shift;
+            // Ajustar si es menor al rango
+            while (newCode < minCode) {
+              newCode = maxCode - (minCode - newCode - 1);
             }
           }
           
-          return charSet[newIndex];
+          return String.fromCharCode(newCode);
         }).join('');
       }).join('');
       
