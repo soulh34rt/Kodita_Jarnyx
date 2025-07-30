@@ -4,7 +4,7 @@
   <img src="./Kodita Jarnyx - KODITA.png" alt="Kodita" width="300"/>
 </p>
 
-What´s Kodita Jarnyx?  
+What´s Kodita Jarnyx and Kodita Jarnyx Digital encoder?  
 Kodita Jarnyx is an easy-to-learn method for encoding and decoding text by transforming each letter according to its position in the word and the word’s length. It’s designed to be simple to pick up and serves as an introduction to coding.
 
 Circular Shift Encoding System:
