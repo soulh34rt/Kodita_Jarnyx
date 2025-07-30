@@ -598,9 +598,9 @@
   <div class="container">
     <header>
       <h1>Kodita Jarnyx</h1>
-      <p class="subtitle">Codificador y decodificador que usa algoritmos basados en posición y longitud</p>
+      <p class="subtitle">Codificador y decodificador avanzado con algoritmo basado en posición y longitud</p>
       <div class="mode-indicator">
-        <i class="fas fa-circle"></i><span class="mode" id="modeText">Codificación</span>
+        <i class="fas fa-circle"></i> Modo: <span class="mode" id="modeText">Codificación</span>
       </div>
     </header>
     
@@ -929,11 +929,11 @@
           // Determinar límites del alfabeto
           let minCode, maxCode;
           if (char >= 'a' && char <= 'z') {
-            minCode = 'a'.charCodeAt(0);
-            maxCode = 'z'.charCodeAt(0);
+            minCode = 97; // 'a'
+            maxCode = 122; // 'z'
           } else if (char >= 'A' && char <= 'Z') {
-            minCode = 'A'.charCodeAt(0);
-            maxCode = 'Z'.charCodeAt(0);
+            minCode = 65; // 'A'
+            maxCode = 90; // 'Z'
           } else {
             // Caracteres extendidos (acentuados)
             minCode = 192;
