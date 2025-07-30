@@ -2,7 +2,7 @@
 <h1 align="center"> Kodita Jarnyx </h1>
 
 <p align="center">
-  <img src="./Kodita the rat.png" alt="Kodita" width="300"/>
+  <img src="./Kodita Jarnyx - KODITA.png" alt="Kodita" width="300"/>
 </p>
 
 ¿Qué es Kodita Jarnyx?
