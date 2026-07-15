@@ -42,6 +42,7 @@ function changeLanguage(lang) {
   document.getElementById('resultLabel').textContent = t.resultLabel;
   document.getElementById('copyBtnText').textContent = t.copyBtnText;
   document.getElementById('copyAllBtnText').textContent = t.copyAllBtnText;
+  document.getElementById('clearBtnText').textContent = t.clearBtnText;
   document.getElementById('howItWorks').textContent = t.howItWorks;
   document.getElementById('explanationText').textContent = t.explanationText;
   document.getElementById('encodeTitle').textContent = t.encodeTitle;
@@ -126,9 +127,16 @@ function updateResult() {
 }
 
 inputText.addEventListener('input', updateResult);
+inputText.addEventListener('focus', () => inputText.select());
 
 copyBtn.addEventListener('click', copyResult);
 copyAllBtn.addEventListener('click', copyAll);
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  inputText.value = '';
+  updateResult();
+  inputText.focus();
+});
 
 actionBtns.forEach(btn => {
   btn.addEventListener('click', () => {
