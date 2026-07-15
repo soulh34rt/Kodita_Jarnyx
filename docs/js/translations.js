@@ -12,8 +12,6 @@ const translations = {
     copyAllBtnText: "Copiar Todo",
     howItWorks: "Cómo funciona",
     explanationText: "Kodita Jarnyx transforma cada letra según su posición en la palabra y la longitud de esa palabra, usando desplazamiento circular sobre un alfabeto multilingüe de más de 500 caracteres.",
-    newsLabel: "v2.0:",
-    newsText: "Nuevo algoritmo robusto con desplazamiento circular. Soporte multilenguaje.",
     encodeTitle: "Codificar",
     encodeStep1: "Longitud de la palabra (semilla)",
     encodeStep2: "Posición de cada letra en el alfabeto",
@@ -28,9 +26,8 @@ const translations = {
     exampleSteps: "'H' (33) → (33 + 4 + 1) = 38 → 'L'<br>'o' (44) → (44 + 4 + 2) = 50 → 'd'<br>'l' (37) → (37 + 4 + 3) = 44 → 'o'<br>'a' (26) → (26 + 4 + 4) = 34 → 'J'<br>Espacio se preserva<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
     resultLabel3: "Resultado:",
     exampleResult: '"LdoJ ぶりどふむ"',
-    charsTitle: "Alfabeto: latín, acentos, japonés, chino, coreano, cirílico",
     developedBy: "Desarrollado con ♥ por ",
-    licenseText: "Kodita Jarnyx — GNU GPL v3.0",
+    licenseText: "Kodita Jarnyx es y siempre será de uso libre",
     authorText: "José B"
   },
   en: {
@@ -46,8 +43,6 @@ const translations = {
     copyAllBtnText: "Copy All",
     howItWorks: "How it works",
     explanationText: "Kodita Jarnyx transforms each letter based on its position in the word and the word length, using circular shift over a multilingual alphabet of 500+ characters.",
-    newsLabel: "v2.0:",
-    newsText: "New robust algorithm with circular shift. Multilingual support.",
     encodeTitle: "Encode",
     encodeStep1: "Word length (seed)",
     encodeStep2: "Each letter's position in alphabet",
@@ -62,9 +57,8 @@ const translations = {
     exampleSteps: "'H' (33) → (33 + 5 + 1) = 39 → 'M'<br>'e' (30) → (30 + 5 + 2) = 37 → 'l'<br>'l' (37) → (37 + 5 + 3) = 45 → 't'<br>'l' (37) → (37 + 5 + 4) = 46 → 'u'<br>'o' (44) → (44 + 5 + 5) = 54 → 'd'<br>Space preserved<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
     resultLabel3: "Result:",
     exampleResult: '"Mltud ぶりどふむ"',
-    charsTitle: "Alphabet: Latin, accented, Japanese, Chinese, Korean, Cyrillic",
     developedBy: "Built with ♥ by ",
-    licenseText: "Kodita Jarnyx — GNU GPL v3.0",
+    licenseText: "Kodita Jarnyx is and always will be free to use",
     authorText: "José B"
   },
   fr: {
@@ -80,8 +74,6 @@ const translations = {
     copyAllBtnText: "Tout copier",
     howItWorks: "Fonctionnement",
     explanationText: "Kodita Jarnyx transforme chaque lettre selon sa position dans le mot et la longueur de ce mot, par décalage circulaire sur un alphabet multilingue de 500+ caractères.",
-    newsLabel: "v2.0:",
-    newsText: "Nouvel algorithme robuste à décalage circulaire. Support multilingue.",
     encodeTitle: "Encoder",
     encodeStep1: "Longueur du mot (graine)",
     encodeStep2: "Position de chaque lettre dans l'alphabet",
@@ -96,9 +88,8 @@ const translations = {
     exampleSteps: "'B' (27) → (27 + 7 + 1) = 35 → 'G'<br>'o' (44) → (44 + 7 + 2) = 53 → 'd'<br>'n' (39) → (39 + 7 + 3) = 49 → 'r'<br>'j' (35) → (35 + 7 + 4) = 46 → 'u'<br>'o' (44) → (44 + 7 + 5) = 56 → 'B'<br>'u' (46) → (46 + 7 + 6) = 59 → 'E'<br>'r' (49) → (49 + 7 + 7) = 63 → 'J'<br>Espace préservé<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
     resultLabel3: "Résultat:",
     exampleResult: '"GdruBEJ ぶりどふむ"',
-    charsTitle: "Alphabet : latin, accents, japonais, chinois, coréen, cyrillique",
     developedBy: "Développé avec ♥ par ",
-    licenseText: "Kodita Jarnyx — GNU GPL v3.0",
+    licenseText: "Kodita Jarnyx est et sera toujours libre d'utilisation",
     authorText: "José B"
   },
   de: {
@@ -114,8 +105,6 @@ const translations = {
     copyAllBtnText: "Alles kopieren",
     howItWorks: "So funktioniert's",
     explanationText: "Kodita Jarnyx wandelt jeden Buchstaben basierend auf seiner Position im Wort und der Wortlänge um, mittels zirkulärer Verschiebung über ein mehrsprachiges Alphabet mit 500+ Zeichen.",
-    newsLabel: "v2.0:",
-    newsText: "Neuer robuster Algorithmus mit zirkulärer Verschiebung. Mehrsprachig.",
     encodeTitle: "Verschlüsseln",
     encodeStep1: "Wortlänge (Saat)",
     encodeStep2: "Position jedes Buchstabens im Alphabet",
@@ -130,9 +119,8 @@ const translations = {
     exampleSteps: "'H' (33) → (33 + 5 + 1) = 39 → 'M'<br>'a' (26) → (26 + 5 + 2) = 33 → 'H'<br>'l' (37) → (37 + 5 + 3) = 45 → 't'<br>'l' (37) → (37 + 5 + 4) = 46 → 'u'<br>'o' (44) → (44 + 5 + 5) = 54 → 'd'<br>Leerzeichen erhalten<br>'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'",
     resultLabel3: "Ergebnis:",
     exampleResult: '"MHtud ぶりどふむ"',
-    charsTitle: "Alphabet: Latein, Akzente, Japanisch, Chinesisch, Koreanisch, Kyrillisch",
     developedBy: "Entwickelt mit ♥ von ",
-    licenseText: "Kodita Jarnyx — GNU GPL v3.0",
+    licenseText: "Kodita Jarnyx ist und bleibt immer kostenlos nutzbar",
     authorText: "José B"
   },
   jp: {
@@ -148,8 +136,6 @@ const translations = {
     copyAllBtnText: "すべてコピー",
     howItWorks: "仕組み",
     explanationText: "コディタ・ジャーニクスは、単語内の位置と単語の長さに基づいて各文字を変換します。500以上の文字を持つ多言語アルファベット上で循環シフトを使用します。",
-    newsLabel: "v2.0:",
-    newsText: "循環シフトを使用した新しい堅牢なアルゴリズム。多言語対応。",
     encodeTitle: "エンコード",
     encodeStep1: "単語の長さ（シード）",
     encodeStep2: "各文字のアルファベット上の位置",
@@ -164,9 +150,8 @@ const translations = {
     exampleSteps: "'こ' (100) → (100 + 5 + 1) = 106 → 'ぶ'<br>'ん' (101) → (101 + 5 + 2) = 108 → 'り'<br>'に' (102) → (102 + 5 + 3) = 110 → 'ど'<br>'ち' (103) → (103 + 5 + 4) = 112 → 'ふ'<br>'は' (104) → (104 + 5 + 5) = 114 → 'む'<br>スペース維持<br>'H' (33) → (33 + 5 + 1) = 39 → 'M'<br>'e' (30) → (30 + 5 + 2) = 37 → 'l'<br>'l' (37) → (37 + 5 + 3) = 45 → 't'<br>'l' (37) → (37 + 5 + 4) = 46 → 'u'<br>'o' (44) → (44 + 5 + 5) = 54 → 'd'",
     resultLabel3: "結果:",
     exampleResult: '"ぶりどふむ Mltud"',
-    charsTitle: "アルファベット: ラテン、アクセント、日本語、中国語、韓国語、キリル文字",
     developedBy: "♡ により開発 ",
-    licenseText: "コディタ・ジャーニクス — GNU GPL v3.0",
+    licenseText: "コディタ・ジャーニクスは、常に無料で使用できます",
     authorText: "ホセ・B"
   }
 };

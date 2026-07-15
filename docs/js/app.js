@@ -38,7 +38,6 @@ function changeLanguage(lang) {
   document.getElementById('exampleSteps').innerHTML = t.exampleSteps;
   document.getElementById('resultLabel3').textContent = t.resultLabel3;
   document.getElementById('exampleResult').textContent = t.exampleResult;
-  document.getElementById('charsTitle').textContent = t.charsTitle;
   document.getElementById('licenseText').textContent = t.licenseText;
   document.getElementById('authorText').textContent = t.authorText;
 
