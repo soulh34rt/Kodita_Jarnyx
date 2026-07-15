@@ -5,9 +5,29 @@ const actionBtns = document.querySelectorAll('.toggle-btn');
 const copyBtn = document.getElementById('copyBtn');
 const copyAllBtn = document.getElementById('copyAllBtn');
 const langBtns = document.querySelectorAll('.lang-btn');
+const themeToggle = document.getElementById('themeToggle');
 
 let currentMode = 'encode';
 let currentLang = 'es';
+
+function getPreferredTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved) return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function setTheme(theme) {
+  document.documentElement.classList.toggle('dark', theme === 'dark');
+  themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', theme);
+}
+
+setTheme(getPreferredTheme());
+
+themeToggle.addEventListener('click', () => {
+  const isDark = document.documentElement.classList.contains('dark');
+  setTheme(isDark ? 'light' : 'dark');
+});
 
 function changeLanguage(lang) {
   currentLang = lang;
