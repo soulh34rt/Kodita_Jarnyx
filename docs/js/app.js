@@ -24,8 +24,6 @@ function changeLanguage(lang) {
   document.getElementById('copyAllBtnText').textContent = t.copyAllBtnText;
   document.getElementById('howItWorks').textContent = t.howItWorks;
   document.getElementById('explanationText').textContent = t.explanationText;
-  document.getElementById('newsLabel').textContent = t.newsLabel;
-  document.getElementById('newsText').textContent = t.newsText;
   document.getElementById('encodeTitle').textContent = t.encodeTitle;
   document.getElementById('encodeStep1').textContent = t.encodeStep1;
   document.getElementById('encodeStep2').textContent = t.encodeStep2;
